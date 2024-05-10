@@ -78,3 +78,5 @@ _✨ 一款库洛游戏数据详情 谢比螺六~ ✨_
 | 战双 | 群员 | 否 | 群聊 |  |
 ### 效果图
 如果有效果图的话
+![IMG_20240510_185129](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/f4869d8e-1e03-4ae6-b95f-632db9f521ae)
+![IMG_20240510_185200](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/0ad515f3-cfc2-4ab6-a433-3056c944d754)
