@@ -14,6 +14,7 @@ nonebot2 = ">=2.2.1"
 nonebot-adapters-onebot = ">=2.2.3"
 httpx = ">=0.27.0"
 sqlite3 = ">=3.37.0"
+playwright = ">=1.28.0"
 
 [build-system]
 requires = ["poetry-core"]
