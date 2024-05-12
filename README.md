@@ -74,7 +74,7 @@ token格式如下所示
 
 ## ⚙️ 配置
 
-无
+插件中包含playwright，首次使用可能需手动执行 playwright install
 
 ## 📝 画饼
 
