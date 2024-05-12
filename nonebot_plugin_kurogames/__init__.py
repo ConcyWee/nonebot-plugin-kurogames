@@ -5,12 +5,13 @@ from nonebot.params import CommandArg
 from .handler.pns_handlers.pns_data_handler import pns_data_handler
 from .handler.pns_handlers.pns_login_handler import pns_login_handler, get_kuro_token
 from nonebot.adapters.onebot.v11 import MessageSegment
+from .Static.kuro_help import kuro_help
 
 
-plugin_meta = PluginMetadata(
+__plugin_meta__ = PluginMetadata(
     name="库洛游戏信息",
     description="一款库洛游戏角色信息插件",
-    usage="发送“战双登录”",
+    usage="发送“战双登录”注册，发送“战双”查询战双详情",
     type="application",
     homepage="https://github.com/ConcyWee/nonebot-plugin-kurogames",
     config=None,
@@ -19,7 +20,8 @@ plugin_meta = PluginMetadata(
 
 
 punishing = on_command("pns", aliases={"战双","战双详情"}, priority=5)
-pns_login = on_command("pnslogin", aliases={"战双登陆","战双登录"}, priority=5)
+pns_login = on_command("pnslogin", aliases={"战双登陆","战双登录", "库洛登录", "库洛登陆", "鸣潮登录", "鸣潮登陆"}, priority=5)
+pns_help  = on_command("pnshelp", aliases={"战双帮助", "库洛帮助", "鸣潮帮助"}, priority=5)
 
 
 @pns_login.handle()
@@ -38,3 +40,8 @@ async def _(event: Event):
         await punishing.finish(MessageSegment.image(pic_result))
     else:
         await punishing.finish("请先输入token")
+
+@pns_help.handle()
+async def _(event: Event):
+    help_datail = await kuro_help()
+    await pns_help.finish(help_datail)
