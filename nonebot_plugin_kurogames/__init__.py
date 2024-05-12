@@ -42,6 +42,6 @@ async def _(event: Event):
         await punishing.finish("请先输入token")
 
 @pns_help.handle()
-async def _(event: Event):
+async def _():
     help_datail = await kuro_help()
     await pns_help.finish(help_datail)
