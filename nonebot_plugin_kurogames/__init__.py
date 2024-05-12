@@ -15,7 +15,7 @@ __plugin_meta__ = PluginMetadata(
     type="application",
     homepage="https://github.com/ConcyWee/nonebot-plugin-kurogames",
     config=None,
-    supported_adapters=None
+    supported_adapters={"nonebot.adapters.onebot.v11"},
 )
 
 
@@ -28,13 +28,13 @@ pns_help  = on_command("pnshelp", aliases={"战双帮助", "库洛帮助", "鸣�
 async def _(event: Event, arg: Message = CommandArg()):
     user_id = event.get_user_id()
     data_content = arg.extract_plain_text()
-    result = pns_login_handler(user_id, data_content)
+    result = await pns_login_handler(user_id, data_content)
     await pns_login.finish(result)
 
 @punishing.handle()
 async def _(event: Event):
     user_id = event.get_user_id()
-    data_row = get_kuro_token(user_id)
+    data_row = await get_kuro_token(user_id)
     if data_row:
         pic_result = await pns_data_handler(data_row)
         await punishing.finish(MessageSegment.image(pic_result))

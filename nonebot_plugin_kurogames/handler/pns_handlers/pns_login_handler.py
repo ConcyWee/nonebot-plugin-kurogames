@@ -4,15 +4,15 @@ from ..token_judgement import token_judgement
 from .pns_detail_handler import get_punishing_account_info, get_mc_account_info
 
 manager = UserInfoManagement()
-def pns_login_handler(user_id, data_content):
+async def pns_login_handler(user_id, data_content):
 
     if data_content == "":
         return("请输入战双token, 如：/战双登录 your_token")
     if token_judgement(data_content) != "success":
         return(token_judgement(data_content))
 
-    pns_info  = get_punishing_account_info(json.loads(data_content)["data"]["token"])
-    mc_info   = get_mc_account_info(json.loads(data_content)["data"]["token"])
+    pns_info  = await get_punishing_account_info(json.loads(data_content)["data"]["token"])
+    mc_info   = await get_mc_account_info(json.loads(data_content)["data"]["token"])
 
     pns_id    = None if (not pns_info["data"])  else pns_info["data"][0]["roleId"]
     mc_id     = None if (not mc_info["data"])   else mc_info ["data"][0]["roleId"]
@@ -40,6 +40,6 @@ def pns_login_handler(user_id, data_content):
         return("token保存成功！")
     return("该账号暂未绑定任何游戏")
 
-def get_kuro_token(qq_id):
+async def get_kuro_token(qq_id):
     result = manager._get_data(qq_id)
     return result

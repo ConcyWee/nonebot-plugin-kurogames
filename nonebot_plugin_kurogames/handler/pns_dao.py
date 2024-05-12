@@ -1,7 +1,11 @@
 import sqlite3
+from pathlib import Path
 from contextlib import contextmanager
 
-DATABASE = './pns.db'
+
+KURODIR = Path.cwd() / 'data'
+DATABASE = KURODIR / 'pns.db'
+KURODIR.mkdir(parents=True, exist_ok=True)
 
 class UserInfoManagement:
     _initialized = False
