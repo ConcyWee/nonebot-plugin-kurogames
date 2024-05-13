@@ -3,6 +3,7 @@ from nonebot.params import CommandArg
 from nonebot.plugin import PluginMetadata
 from nonebot.adapters.onebot.v11 import MessageSegment, Message, Bot, MessageEvent
 
+from .config import Config
 from .Static.kuro_help import kuro_help
 from .handler.pns_handlers.pns_data_handler import pns_data_handler
 from .handler.pns_handlers.pns_login_handler import pns_login_handler, get_kuro_token
@@ -13,7 +14,7 @@ __plugin_meta__ = PluginMetadata(
     usage="发送“战双登录”注册，发送“战双”查询战双详情",
     type="application",
     homepage="https://github.com/ConcyWee/nonebot-plugin-kurogames",
-    config=None,
+    config=Config,
     supported_adapters={"nonebot.adapters.onebot.v11"},
 )
 

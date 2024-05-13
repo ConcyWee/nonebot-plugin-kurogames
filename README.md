@@ -75,6 +75,9 @@ token格式如下所示
 ## ⚙️ 配置
 
 插件中包含playwright，首次使用可能需手动执行 playwright install
+| 配置项 | 必填 | 说明 |
+|:-----:|:----:|:----:|
+| kuro_db_path | 否 | 配置数据库路径，例如 "D:\kurogames"(如不填写则默认保存位置为/data/kurogames) |
 
 ## 📝 画饼
 

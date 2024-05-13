@@ -6,7 +6,7 @@ from  ..config import Config
 
 plugin_config = get_plugin_config(Config)
 
-KURO_DIR = Path(plugin_config.KURO_DB_PATH)
+KURO_DIR = Path(plugin_config.kuro_db_path)
 DATABASE = KURO_DIR / 'pns.db'
 
 KURO_DIR.mkdir(parents=True, exist_ok=True)
