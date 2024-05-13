@@ -1,11 +1,17 @@
 import sqlite3
 from pathlib import Path
 from contextlib import contextmanager
+from nonebot import get_plugin_config
+from  ..config import Config
 
+plugin_config = get_plugin_config(Config)
 
-KURODIR = Path.cwd() / 'data'
-DATABASE = KURODIR / 'pns.db'
-KURODIR.mkdir(parents=True, exist_ok=True)
+KURO_DIR = plugin_config.KURO_DB_PATH
+if isinstance(KURO_DIR, str):
+    KURO_DIR = Path(KURO_DIR)
+DATABASE = KURO_DIR / 'pns.db'
+
+KURO_DIR.mkdir(parents=True, exist_ok=True)
 
 class UserInfoManagement:
     _initialized = False
