@@ -23,8 +23,9 @@ _✨ 一款库洛游戏数据详情 谢比螺六~ ✨_
 
 ## 📖 介绍
 
-输入命令即可查询库洛游戏数据详情
-token的获取方法请自行查找呦~
+输入命令即可查询库洛游戏数据详情  
+所需的token须为库街区app获取，网页的token不可以哦~  
+可以用抓包软件抓取sdkLogin的包，具体获取方法请自行查找呦~  
 token格式如下所示
 ![image](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/1fc32ace-cca4-4ddc-bda4-7ed4f9054848)
 
