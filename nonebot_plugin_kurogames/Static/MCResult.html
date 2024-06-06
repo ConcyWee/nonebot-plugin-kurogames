@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Profile</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei";
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .profile {
+            width: 375px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .header {
+            background: url('header-background.jpg') no-repeat center center;
+            background-size: cover;
+            padding: 20px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+        }
+        .header img {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin-right: 20px;
+        }
+        .header .info {
+            flex: 1;
+        }
+        .header .info h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .header .info p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+        .header .rank {
+            background-color: #f39c12;
+            border-radius: 20px;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .section {
+            padding: 20px;
+            border-bottom: 1px solid #eeeeee;
+            background-color: rgb(255, 254, 253);
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #333333;
+        }
+        .stats, .characters, .data, .exploration {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .stat{
+            width: 50%;
+            padding: 10px 0;
+        }
+        .stat1, .chanllenge {
+            width: 100%;
+            padding: 10px 0;
+        }
+        .exploration-item{
+            width: 100%;
+        }
+        .stat p, challenge p, .exploration-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #666666;
+        }
+        .stat h4, .character h4, .challenge h4, .exploration-item h4 {
+            margin: 5px 0 0;
+            font-size: 16px;
+            color: #333333;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #c7c7c7;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-bar div {
+            height: 10px;
+            background-color: #857c0a;
+            width: 50%; 
+        }
+        .characters .character {
+            width: 23%; 
+            text-align: center;
+            position: relative;
+            padding: 3px;
+            box-sizing: border-box;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+        .character h4 {
+            position: absolute;
+            bottom: 100px;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            font-size: 14px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 0;
+            box-sizing: border-box;
+        }
+        .character img {
+            width: 90%; 
+            object-fit: contain; 
+        }
+        .challenge {
+            background-size: cover;
+            background-position: center;
+            text-align: right;
+            height: 70px;
+        }
+        .roleDetail p {
+            justify-content: left;
+            text-align: left;
+            font-size: 9px;
+            color: #ffffff;
+            display: flex;
+            align-items: flex-start; 
+        }
+
+        .roleDetail p img {
+            width: 20px; 
+            object-fit: contain;
+            vertical-align: top;
+        }
+        .myData, .dataTitle{
+            vertical-align: top;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-family: "Microsoft YaHei";
+        }
+        .myData{
+            font-size: 15px;
+        }
+        .dataTitle{
+            font-size: 9px;
+        }
+        .data-item {
+            display: flex;
+            align-items: center; 
+        }
+
+        .data-item img {
+            width: 100px;
+            height: 100px; 
+            object-fit: cover; 
+        }
+
+        .data-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around; 
+            height: 100px;
+            margin-left: 10px; 
+        }
+        .container {
+            display: flex;
+            align-items: flex-start;
+            padding-left: 20px;
+        }
+
+        .image-container {
+            width: 200px;
+        }
+
+        .image-container image {
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .text-overlay {
+            position: absolute;
+            left: -1%;
+            transform: translate(-50%, -50%); 
+            color: white;
+            font-size: 24px;
+        }
+
+        .text-container {
+            margin-left: -10%;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="profile" style="margin-top: 0px; margin-bottom: 0px;">
+        <div class="header" style="background-image: url(../Pics/mc_pics/header_bg.jpg);">
+            <img src="../Pics/mc_pics/mc.png" style="width: 100px; height: 100px;" alt="Profile Picture">
+            <div class="info">
+                <h2>{{ roleName }}</h2>
+                <p>{{ serverName }} | ID: {{ roleId }}</p>
+                <p>成就数: {{ baseData.achievementCount }}</p>
+                <p>角色数量: {{ baseData.roleNum }}</p>
+                <p>声骸收集进度: 100%</p>
+            </div>
+            <div class="rank">{{ baseData.level }}级</div>
+        </div>
+        <div class="section" style="background-image: url(../Pics/mc_pics/bg-mask.png); background-size: cover; background-repeat: no-repeat;">
+            <h3>日常数据</h3>
+            <div class="stats">
+                <div class="stat">
+                    <img src="../Pics/mc_pics/energy-icon.png" style="width: 50px; height: 50px;">
+                    <p style="font-size: 15px;">结晶碎片</p>
+                    <h4 style="font-size: 15px;">{{ energyData.cur }}/{{ energyData.total }}</h4>
+                </div>
+                <div class="stat">
+                    <img src="../Pics/mc_pics/active-icon.png" style="width: 50px; height: 50px;">
+                    <p style="font-size: 15px;">活跃度</p>
+                    <h4 style="font-size: 15px;">{{ livenessData.cur }}/{{ livenessData.total }}</h4>
+                </div>
+                <div class="stat">
+                    <p style="font-size: 15px;">先约电台</p>
+                    <h4 style="font-size: 15px;">LV.{{ battlePassData[0].cur }}</h4>
+                    <h4 style="font-size: 15px;">{{ battlePassData[1].cur }}/{{ battlePassData[1].total }}</h4>
+                </div>
+                <div class="stat1">
+                    <div class="progress-bar"><div style="width: {{ battlePassData[1].cur/battlePassData[1].total*100 }}%;"></div></div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h3>我的资料</h3>
+            <div class="characters">
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.activeDays }}</p>
+                        <p class="dataTitle">游戏天数</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.level }}</p>
+                        <p class="dataTitle">联觉等级</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.worldLevel }}</p>
+                        <p class="dataTitle">索拉等级</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.achievementCount }}</p>
+                        <p class="dataTitle">已达成成就</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.roleNum }}</p>
+                        <p class="dataTitle">解锁角色</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{baseData.soundBox}}</p>
+                        <p class="dataTitle">背包声匣数</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.smallCount }}</p>
+                        <p class="dataTitle">小型信标解锁数</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.bigCount }}</p>
+                        <p class="dataTitle">中型信标解锁数</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.boxList[0].num }}</p>
+                        <p class="dataTitle">朴素奇藏箱</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.boxList[1].num }}</p>
+                        <p class="dataTitle">基准奇藏箱</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.boxList[2].num }}</p>
+                        <p class="dataTitle">精密奇藏箱</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{ baseData.boxList[3].num }}</p>
+                        <p class="dataTitle">辉光奇藏箱</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="section">
+            <h3>共鸣者</h3>
+            <div class="characters">
+                {% for item in roleList %}
+                    {% if item.starLevel == 5 %}
+                        <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
+                            <div class="rolePic"><img src="{{ item.roleIconUrl }}"></div>
+                            <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/{{ item.attributeName }}.png">{{ item.roleName }}</p></div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% for item in roleList %}
+                    {% if item.starLevel == 4 %}
+                        <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                            <div class="rolePic"><img src="{{ item.roleIconUrl }}"></div>
+                            <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/{{ item.attributeName }}.png">{{ item.roleName }}</p></div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <h3 style="padding-left: 20px;">数据坞信息</h3>
+        <div class="container">
+            <div class="image-container">
+                <div class="image" style="background-image: url(../Pics/mc_pics/calabash.png); width: 150px; height: 150px; background-size: cover;">
+                    <div class="text-overlay" style="position: relative; top: 60%; transform: translateY(-50%); text-align: center; width: 100%; color: white; font-size: 24px;">{{ calabashLevel }}</div>
+                </div>
+            </div>
+            <div class="text-container" style="display: flex; flex-direction: column; justify-content: space-around; height: 150px;">
+                <p style="margin: 0;">基础吸收概率：{{ baseCatch }}</p>
+                <p style="margin: 0;">强化吸收概率：{{ strengthenCatch }}</p>
+                <p style="margin: 0;">最高可吸收品质：{{ catchQuality }}星</p>
+                <p style="margin: 0;">COST上限：{{ cost }}</p>
+            </div>
+        </div>
+        <div class="section">
+            <h3>挑战数据</h3>
+            <div class="challenges">
+                {% for item in challengeList %}
+                    <div class="challenge" style="background-image: url({{ item.bossIconUrl }});">
+                        <h4>{{ item.bossName }}</h4>
+                        <p>当前难度：{{ item.difficulty }}/6</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="section">
+            <h3>探索数据</h3>
+            <div class="exploration">
+                <div class="exploration-item">
+                    <div style="background-image: url(../Pics/mc_pics/titleBg.png); background-size: contain; background-repeat: no-repeat; display: flex; align-items: center;">
+                        <img src="../Pics/mc_pics/logo.png" style="width: 40px; height: 40px; margin-left: 8%;">
+                        <p style="margin-left: 10px; font-size: 15px; font-weight:bold; color: rgb(223, 216, 173);">瑝珑</p>
+                    </div>
+                    <div>探索度：{{ exploreData.countryProgress }}%</div>
+                    <div class="progress-bar" style="width: 95%; margin-left: 3%;"><div style="width: {{ exploreData.countryProgress }}%;"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -14,18 +14,25 @@ async def pns_login_handler(user_id, data_content):
     pns_info  = await get_punishing_account_info(json.loads(data_content)["data"]["token"])
     mc_info   = await get_mc_account_info(json.loads(data_content)["data"]["token"])
 
-    pns_id    = None if (not pns_info["data"])  else pns_info["data"][0]["roleId"]
-    mc_id     = None if (not mc_info["data"])   else mc_info ["data"][0]["roleId"]
+    pns_id    = None                          if (not pns_info["data"]) else pns_info["data"][0]["roleId"]
+    mc_id     = None                          if (not mc_info["data"])  else mc_info ["data"][0]["roleId"]
+    bbs_id    = pns_info["data"][0]["userId"] if pns_id                 else mc_info ["data"][0]["userId"]
 
     if pns_id or mc_id:
-        server_id = pns_info["data"][0]["serverId"]  if (pns_info["data"])  else mc_info["data"]["serverId"] if (mc_info["data"]) else None
         data = {
+            'bbsId': bbs_id,
             'userId': user_id,
             'pnsId': pns_id,
             'mcId': mc_id,
             'token': str(data_content),
-            'serverId': server_id
+            'serverId': '',
+            'mcServerId': ''
         }
+        if pns_id:
+            data['serverId'] = pns_info["data"][0]["serverId"]
+        if mc_id:
+            data['mcServerId'] = mc_info["data"][0]["serverId"]
+        
         if manager._get_data(user_id):
             try:
                 manager._update_data(user_id, data)
@@ -39,6 +46,9 @@ async def pns_login_handler(user_id, data_content):
                 return("插入数据失败: " + str(e))
         return("token保存成功！")
     return("该账号暂未绑定任何游戏")
+
+        
+
 
 async def get_kuro_token(qq_id):
     result = manager._get_data(qq_id)

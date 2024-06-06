@@ -1,15 +1,17 @@
 import json
 import time
-from .pns_detail_handler import get_punishing_resource, get_monthly_resource, get_pns_game_account, get_punishing_account_info
-from ..pns_dao import UserInfoManagement
+from .pns_detail_handler import *
 from ..calculate_time_stamp import calculate_time_stamp
 from .pns_pic_render import pic_generator
 
 async def pns_data_handler(data_row):
     pns_result = {}
-    user_token        = data_row[4] #获取token
+    user_token        = data_row[4]
     token_data        = json.loads(user_token)['data']['token']
-    pns_detail        = await get_punishing_resource(token_data)
+    try:
+        pns_detail    = await get_punishing_resource(token_data)
+    except:
+        return "还没有设置战双角色哦~请点击打开库街区App在【我的】页面中设置角色"
     pns_resource      = await get_monthly_resource(pns_detail['data']['roleId'], token_data)
     pns_role_list     = await get_punishing_account_info(token_data)
     pns_account       = await get_pns_game_account(pns_detail['data']['roleId'], pns_detail['data']['serverId'], token_data)

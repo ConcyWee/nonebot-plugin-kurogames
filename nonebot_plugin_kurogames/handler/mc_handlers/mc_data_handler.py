@@ -1,0 +1,45 @@
+import json
+import time
+from .mc_detail_handler import *
+from .mc_pic_render import mc_pic_render
+async def mc_data_handler(data_row):
+
+    mc_result           = {}
+    user_token          = data_row[4]
+    token_data          = json.loads(user_token)['data']['token']
+    # token_data          = data_row['data']['token'] # 测试用
+    try:
+        mc_detail           = await get_mc_resource(token_data)
+    except:
+        return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
+    
+    #沟槽的库洛，角色数据也得刷新👊😡
+    await refresh_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    
+    mc_base_data        = await get_mc_base_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    mc_role_data        = await get_mc_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    mc_calabash_data    = await get_mc_calabash_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    mc_challange_data   = await get_mc_challenge_index(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    mc_explore_data     = await get_mc_explore_index(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+
+    mc_result['roleName']           = mc_detail['data']['roleName']
+    mc_result['roleId']             = mc_detail['data']['roleId']
+    mc_result['serverName']         = mc_detail['data']['serverName']
+    mc_result['energyData']         = mc_detail['data']['energyData']
+    mc_result['livenessData']       = mc_detail['data']['livenessData']
+    mc_result['battlePassData']     = mc_detail['data']['battlePassData']
+    mc_result['roleList']           = mc_role_data['data']['roleList']
+    mc_result['calabashLevel']      = mc_calabash_data['data']['level']
+    mc_result['baseCatch']          = mc_calabash_data['data']['baseCatch']
+    mc_result['strengthenCatch']    = mc_calabash_data['data']['strengthenCatch']
+    mc_result['catchQuality']       = mc_calabash_data['data']['catchQuality']
+    mc_result['cost']               = mc_calabash_data['data']['cost']
+    mc_result['maxCount']           = mc_calabash_data['data']['maxCount']
+    mc_result['unlockCount']        = mc_calabash_data['data']['unlockCount']
+    mc_result['phantomList']        = mc_calabash_data['data']['phantomList']
+    mc_result['challengeList']      = mc_challange_data['data']['indexList']
+    mc_result['baseData']           = mc_base_data['data']
+    mc_result['exploreData']        = mc_explore_data['data']
+
+    data_pic = await mc_pic_render(mc_result)   
+    return data_pic

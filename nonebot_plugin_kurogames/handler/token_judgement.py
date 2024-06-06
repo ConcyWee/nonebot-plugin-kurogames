@@ -4,7 +4,7 @@ def token_judgement(token):
     try:
         data_dict = json.loads(token)
     except ValueError as e:
-        return "错误: token格式错误"
+        return "错误: "+str(e)
     required_keys = ["code", "data", "msg", "success"]
     for key in required_keys:
         if key not in data_dict:

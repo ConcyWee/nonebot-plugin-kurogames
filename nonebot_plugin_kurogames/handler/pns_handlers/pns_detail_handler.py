@@ -10,9 +10,10 @@ header_data = {
         'model': '2201122C',
         'source': 'android',
         'lang': 'zh-Hans',
-        'version': '2.1.0',
-        'versionCode': '2100',
+        'version': '2.2.0',
+        'versionCode': '2200',
         'token': '',
+        'distinct_id' : 'e311206c-57d9-41bc-94ba-2555f9124837',
         'content-type': 'application/x-www-form-urlencoded; charset=utf-8',
         'x-requested-with': 'com.kurogame.kjq',
         'sec-fetch-site': 'same-site',
@@ -20,7 +21,7 @@ header_data = {
         'sec-fetch-dest': 'empty',
         'accept-encoding': 'gzip, deflate, br, zstd',
         'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
-        'user-agent': 'okhttp/3.10.0',
+        'user-agent': 'okhttp/3.11.0',
     }
 
 async def get_punishing_resource(token):

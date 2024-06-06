@@ -39,13 +39,21 @@ class UserInfoManagement:
         with self.cursor() as cur:
             cur.execute('''CREATE TABLE IF NOT EXISTS PNS_USER_INFO
                         (
-                            bbs_id     INTEGER PRIMARY KEY,
-                            qq_id      INTEGER,
-                            pns_id     INTEGER,
-                            mc_id      INTEGER,
-                            user_token TEXT,
-                            server_id  INTEGER
+                            bbs_id        INTEGER PRIMARY KEY,
+                            qq_id         INTEGER,
+                            pns_id        INTEGER NULL,
+                            mc_id         INTEGER NULL,
+                            user_token    TEXT,
+                            server_id     INTEGER NULL,
+                            mc_server_id  TEXT NULL,
+                            gacha_id      TEXT NULL
                         );''')
+            cur.execute("PRAGMA table_info(PNS_USER_INFO)")
+            columns = [row[1] for row in cur.fetchall()]
+            if 'mc_server_id' not in columns:
+                cur.execute('ALTER TABLE PNS_USER_INFO ADD COLUMN mc_server_id TEXT NULL;')
+            if 'gacha_id' not in columns:
+                cur.execute('ALTER TABLE PNS_USER_INFO ADD COLUMN gacha_id TEXT NULL;')
             self.conn.commit()
             return "success"
     def _get_data(self, qq_id):
@@ -59,34 +67,36 @@ class UserInfoManagement:
             raise e
         
     def _insert_data(self, user_id, data):
-        bbs_id = data['userId']
+        bbs_id = data['bbsId']
         qq_id = user_id
         pns_id = data['pnsId']
         mc_id = data['mcId']
         user_token = data['token']
-        server_id = data['serverId']
+        server_id = data.get('serverId', '')
+        mc_server_id = data.get('mcServerId', '')
         try:
             c = self.conn.cursor()
-            sql = '''INSERT INTO PNS_USER_INFO (bbs_id, qq_id, pns_id, mc_id, user_token, server_id) VALUES (?, ?, ?, ?, ?, ?)'''
-            c.execute(sql, (bbs_id, qq_id, pns_id, mc_id, user_token, server_id))
+            sql = '''INSERT INTO PNS_USER_INFO (bbs_id, qq_id, pns_id, mc_id, user_token, server_id, mc_server_id) VALUES (?, ?, ?, ?, ?, ?, ?)'''
+            c.execute(sql, (bbs_id, qq_id, pns_id, mc_id, user_token, server_id, mc_server_id))
             self.conn.commit()
             return "success"
         except Exception as e:
             raise e
         
     def _update_data(self, user_id, data):
-        bbs_id = data['userId']
+        bbs_id = data['bbsId']
         qq_id = user_id
         pns_id = data['pnsId']
         mc_id = data['mcId']
         user_token = data['token']
-        server_id = data['serverId']
+        server_id = data.get('serverId', '')
+        mc_server_id = data.get('mcServerId', '')
         try:
             c = self.conn.cursor()
-            params = (bbs_id, pns_id, mc_id, str(user_token), server_id, qq_id)
+            params = (bbs_id, pns_id, mc_id, str(user_token), server_id, mc_server_id, qq_id)
             sql = """UPDATE PNS_USER_INFO 
                     SET bbs_id = ?, pns_id = ?, mc_id = ?, 
-                        user_token = ?, server_id = ? 
+                        user_token = ?, server_id = ? , mc_server_id = ?
                     WHERE qq_id = ?"""
 
             c.execute(sql, params)
