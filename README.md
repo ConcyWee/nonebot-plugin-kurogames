@@ -25,11 +25,12 @@ _✨ 一款库洛游戏数据详情 谢比螺六~ ✨_
 
 输入命令即可查询库洛游戏数据详情  
 所需的token须为库街区app获取，网页的token不可以哦~  
-可以用抓包软件抓取sdkLogin的包，具体获取方法请自行查找呦~  
+可以用抓包软件抓取sdkLogin的包，具体获取方法请参考文档：https://docs.qq.com/doc/DZW9SQ294SnhlbkFw  
 token格式如下所示
 ![image](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/1fc32ace-cca4-4ddc-bda4-7ed4f9054848)
 
 ## ❗ 宇宙安全声明
+
 本插件仅提供库洛游戏的账号数据查询，并不会保存您的用户名和密码，但会保存获取到的账号 token! 如果您的账号出现封禁, 被盗等处罚与本插件无关. 使用即视为您阅读并同意以上条款!
 
 ## 💿 安装
@@ -82,17 +83,39 @@ token格式如下所示
 
 ## 📝 画饼
 
-- [ ] 增加鸣潮游戏详情查询
+- [x] 增加鸣潮游戏详情查询
 - [ ] 自定义背景图片
 - [ ] 战双血清回满提前提醒
+- [ ] 增加鸣潮抽卡数据分析
+- [ ] 增加鸣潮查询指定uid/某人的数据
+- [ ] 库街区签到
 
 ## 🎉 使用
+
 ### 指令表
+
 | 指令 | 权限 | 需要@ | 范围 | 说明 |
 |:-----:|:----:|:----:|:----:|:----:|
 | 战双登录 token | 群员 | 否 | 群聊 | 登录库街账号 |
 | 战双 | 群员 | 否 | 群聊 | 获取战双当前数据 |
+| 鸣潮 | 群员 | 否 | 群聊 | 获取鸣潮当前数据 |
+
 ### 效果图
-如果有效果图的话
+
+战双：
 ![IMG_20240510_185129](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/f4869d8e-1e03-4ae6-b95f-632db9f521ae)
 ![IMG_20240510_185200](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/0ad515f3-cfc2-4ab6-a433-3056c944d754)
+鸣潮：
+![1717680630766](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/f2663745-7c8c-48e3-b625-6acb8ad066a7)
+![1717680630759](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/ae3c91f5-a87f-4521-9ada-ea804d9834df)
+
+## 🦜 更新日志
+
+### 2024.06.07
+
+- 修复无游戏角色时崩溃的bug
+- 增加鸣潮体力回满时间
+
+### 2024.06.06
+
+- 增加鸣潮数据查询

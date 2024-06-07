@@ -2,6 +2,7 @@ import json
 import time
 from .mc_detail_handler import *
 from .mc_pic_render import mc_pic_render
+from ..calculate_time_stamp import calculate_time_stamp
 async def mc_data_handler(data_row):
 
     mc_result           = {}
@@ -15,6 +16,8 @@ async def mc_data_handler(data_row):
     
     #沟槽的库洛，角色数据也得刷新👊😡
     await refresh_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+
+    current_timestamp = int(time.time())
     
     mc_base_data        = await get_mc_base_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
     mc_role_data        = await get_mc_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
@@ -28,6 +31,7 @@ async def mc_data_handler(data_row):
     mc_result['energyData']         = mc_detail['data']['energyData']
     mc_result['livenessData']       = mc_detail['data']['livenessData']
     mc_result['battlePassData']     = mc_detail['data']['battlePassData']
+    mc_result['refreshTime']        = calculate_time_stamp(mc_detail['data']['energyData']['refreshTimeStamp'], current_timestamp) if mc_detail['data']['energyData']['refreshTimeStamp'] != 0 else "体力已满"
     mc_result['roleList']           = mc_role_data['data']['roleList']
     mc_result['calabashLevel']      = mc_calabash_data['data']['level']
     mc_result['baseCatch']          = mc_calabash_data['data']['baseCatch']

@@ -10,6 +10,7 @@ async def mc_pic_render(data):
         'energyData'        : data['energyData'],
         'livenessData'      : data['livenessData'],
         'battlePassData'    : data['battlePassData'],
+        'refreshTime'       : data['refreshTime'],
         'roleList'          : data['roleList'],
         'calabashLevel'     : data['calabashLevel'],
         'baseCatch'         : data['baseCatch'],
