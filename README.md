@@ -119,8 +119,3 @@ token格式如下所示
 ### 2024.06.06
 
 - 增加鸣潮数据查询
-鸣潮：
-![1717680630766](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/f2663745-7c8c-48e3-b625-6acb8ad066a7)
-![1717680630759](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/ae3c91f5-a87f-4521-9ada-ea804d9834df)
-
-
