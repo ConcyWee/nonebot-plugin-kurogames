@@ -5,12 +5,14 @@ from nonebot.adapters.onebot.v11 import MessageSegment, Message, Bot, MessageEve
 
 import json
 from .config import Config
-from .Static.kuro_help import kuro_help
+from .Static.kuro_help import *
 from .handler.pns_handlers.pns_data_handler import pns_data_handler
 from .handler.pns_handlers.pns_login_handler import pns_login_handler, get_kuro_token
 from .handler.pns_handlers.pns_detail_handler import kuro_sdk_login
 from .handler.mc_handlers.mc_data_handler import mc_data_handler
 from .handler.bbs_handlers.bbs_data_handler import daily_task
+from .handler.mc_handlers.mc_gacha_login_handler import *
+from .handler.mc_handlers.mc_gacha_handler import gacha_analysis
 
 __plugin_meta__ = PluginMetadata(
     name="库洛游戏信息",
@@ -23,24 +25,29 @@ __plugin_meta__ = PluginMetadata(
 )
 
 
-punishing  = on_command("zssj", aliases={"战双详情", "zsxq", "我的战双卡片", "战双数据"}, priority=5)
-pns_login  = on_command("pnslogin", aliases={"战双登陆","战双登录", "库洛登录", "库洛登陆", "鸣潮登录", "鸣潮登陆"}, priority=5)
-pns_help   = on_command("pnshelp", aliases={"战双帮助", "库洛帮助", "鸣潮帮助"}, priority=5)
-mingchao   = on_command("mcsj", aliases={"鸣潮详情", "mcxq", "我的鸣潮卡片", "鸣潮数据"}, priority=5)
-kuro_daily = on_command("库洛签到", aliases={"战双签到", "鸣潮签到", "库街区每日", "库洛每日", "库街区签到"}, priority=5)
+punishing      = on_command("zssj", aliases={"战双详情", "zsxq", "我的战双卡片", "战双数据"}, priority=5)
+kuro_login      = on_command("pnslogin", aliases={"战双登陆","战双登录", "库洛登录", "库洛登陆", "鸣潮登录", "鸣潮登陆"}, priority=5)
+pns_help       = on_command("pnshelp", aliases={"战双帮助", "库洛帮助", "鸣潮帮助"}, priority=5)
+mingchao       = on_command("mcsj", aliases={"鸣潮详情", "mcxq", "我的鸣潮卡片", "鸣潮数据"}, priority=5)
+kuro_daily     = on_command("库洛签到", aliases={"战双签到", "鸣潮签到", "库街区每日", "库洛每日", "库街区签到"}, priority=5)
+mc_gacha       = on_command("鸣潮抽卡分析", aliases={"鸣潮抽卡记录", "鸣潮抽卡历史", "鸣潮抽卡详情", "鸣潮抽卡数据"}, priority=5)
+mc_gacha_login = on_command("鸣潮数据码录入", aliases={"鸣潮抽卡录入", "鸣潮抽卡登陆", "鸣潮抽卡登录"}, priority=5)
 
-@pns_login.handle()
+@kuro_login.handle()
 async def _(bot:Bot, event: MessageEvent, arg: Message = CommandArg()):
     user_id = event.get_user_id()
     data_content = arg.extract_plain_text()
-    if data_content[0].isdigit() and data_content[-1].isdigit():
-        data_content = await kuro_sdk_login(data_content.split(' ')[0], data_content.split(' ')[1])
-        if isinstance(data_content, dict):
-            data_content = json.dumps(data_content)
-        else:
-            await pns_login.finish(data_content)
-    result = await pns_login_handler(user_id, data_content)
-    await pns_login.finish(result)
+    if data_content:
+        if data_content[0].isdigit() and data_content[-1].isdigit():
+            data_content = await kuro_sdk_login(data_content.split(' ')[0], data_content.split(' ')[1])
+            if isinstance(data_content, dict):
+                data_content = json.dumps(data_content)
+            else:
+                await kuro_login.finish(data_content)
+        result = await pns_login_handler(user_id, data_content)
+    else:
+        result = "请输入token"
+    await kuro_login.finish(result)
 
 @punishing.handle()
 async def _(bot: Bot, event: MessageEvent):
@@ -56,12 +63,17 @@ async def _(bot: Bot, event: MessageEvent):
 
 @pns_help.handle()
 async def _():
-    help_datail = await kuro_help()
-    await pns_help.finish(help_datail)
+    help_pic = await kuro_help_pic()
+    help_txt = await kuro_help_text()
+    await pns_help.finish(MessageSegment.image(help_pic) + MessageSegment.text(help_txt))
 
 @mingchao.handle()
-async def _(bot: Bot, event: MessageEvent):
+async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     user_id = event.get_user_id()
+    if args != '':
+        for arg in args:
+            if arg.type == "at":
+                user_id = arg.data.get("qq", "")
     data_row = await get_kuro_token(user_id)
     if data_row:
         pic_result = await mc_data_handler(data_row)
@@ -80,3 +92,21 @@ async def _(bot: Bot, event: MessageEvent):
         await kuro_daily.finish(MessageSegment.text(daily_result))
     else:
         await kuro_daily.finish("请先输入token")
+
+@mc_gacha_login.handle()
+async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
+    qq_id = event.get_user_id()
+    gacha_id = args.extract_plain_text()
+    result = await mc_gacha_login_handler(qq_id, gacha_id)
+    await mc_gacha_login.finish(result)
+
+@mc_gacha.handle()
+async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
+    qq_id = event.get_user_id()
+    gacha_type = args.extract_plain_text()
+    if gacha_type in ["角色常驻", "武器常驻", "角色up", "武器up", "新手池", "新手自选池"]:
+        result = await gacha_analysis(qq_id, gacha_type)
+    else:
+        await mc_gacha.finish("请输入正确的抽卡类型\n角色常驻, 武器常驻, 角色up, 武器up, 新手池, 新手自选池")
+    await mc_gacha.finish(result)
+    

@@ -19,10 +19,8 @@ class UserInfoManagement:
             self.conn = sqlite3.connect(DATABASE)
             self._create_table_once()
             self._initialized = True
-            print("数据库连接成功, 表已创建! ")
         else:
             self.conn = sqlite3.connect(DATABASE)
-            print("数据库连接成功, 表已存在! ")
 
     @contextmanager
     def cursor(self):
@@ -112,6 +110,19 @@ class UserInfoManagement:
             c.execute(sql, (qq_id,))
             row = c.fetchone()
             return row
+        except Exception as e:
+            raise e
+        
+    def _update_gacha_info(self, qq_id, gacha_id):
+        try:
+            c = self.conn.cursor()
+            params = (gacha_id, qq_id)
+            sql = '''UPDATE PNS_USER_INFO
+                    SET gacha_id = ?
+                    WHERE qq_id = ?'''
+            c.execute(sql, params)
+            self.conn.commit()
+            return "success"
         except Exception as e:
             raise e
         

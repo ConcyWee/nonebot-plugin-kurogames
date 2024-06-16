@@ -1,12 +1,17 @@
-async def kuro_help():
-    help_detail = ""
-    help_detail += "-发送“战双登录 token”登录(推荐)\n"
-    help_detail += "  发送“战双登录 手机号 验证码”(用空格分隔)即可登录\n"
-    help_detail += "  （不建议使用短信验证码，库街区只允许一处登录，使用该方式会导致无法使用库街区）\n"
-    help_detail += "-发送“战双数据”即可查询战双信息\n"
-    help_detail += "  （zssj、战双详情、zsxq、我的战双卡片、战双数据 皆可触发）\n"
-    help_detail += "-发送“鸣潮数据”即可查询战双信息\n"
-    help_detail += "  （鸣潮详情、mcxq、我的鸣潮卡片、鸣潮数据 皆可触发）\n"
-    help_detail += "-发送“库洛签到”完成库街区每日任务\n"
-    help_detail += "  （战双签到、鸣潮签到、库街区每日、库洛每日、库街区签到 皆可触发）\n"
-    return help_detail
+import os
+async def kuro_help_pic():
+    parent_parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    static_dir = os.path.join(parent_parent_dir, 'Static')
+    help_pic_path = os.path.join(static_dir, 'Pics', 'help_pics', 'HELP_PIC.png')
+    with open(help_pic_path, 'rb') as file:
+        help_pic = file.read()
+    return help_pic
+
+async def kuro_help_text():
+    help_text = ""
+    help_text += "链接1(token获取教程)：\n"
+    help_text += "https://docs.qq.com/doc/DZW9SQ294SnhlbkFw\n"
+    help_text += "链接2(卡池ID获取教程)：\n"
+    help_text += "https://docs.qq.com/doc/DZUVHeVRHekxRbm9y\n"
+
+    return help_text
