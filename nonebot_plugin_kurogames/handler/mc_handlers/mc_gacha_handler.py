@@ -48,8 +48,7 @@ async def gacha_analysis(qq_id, gacha_type):
             'time': gacha_data[first_five_star_index]['time']
         }
 
-    print(f"卡池已垫的次数为: {padded_draws} 抽")
     for name, info in five_star_analysis.items():
         result += f"{name}: {info['draws_after']} 抽 - 获得时间: {info['time']}\n"
-    result += f"卡池已垫了{padded_draws} 抽\n"
+    result += f"\n卡池已垫了{padded_draws} 抽\n"
     return result

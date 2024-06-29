@@ -104,8 +104,9 @@ async def get_mc_role(token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_gacha(usr_id, record_id, card_pool_type, server_id):
+    gacha_header_data = header_data.copy()
     GACHA_URL = 'https://gmserver-api.aki-game2.com/gacha/record/query'
-    header_data['content-type'] = 'application/json;charset=UTF-8'
+    gacha_header_data['content-type'] = 'application/json;charset=UTF-8'
     form_data = {
         'playerId'      : usr_id,
         'serverId'      : server_id,
@@ -114,7 +115,7 @@ async def get_mc_gacha(usr_id, record_id, card_pool_type, server_id):
         'cardPoolType'  : card_pool_type
     }
     form_data_json = json.dumps(form_data)
-    return await do_fetch(GACHA_URL, header_data, form_data_json)
+    return await do_fetch(GACHA_URL, gacha_header_data, form_data_json)
 
 
 async def do_fetch(url, header, data):

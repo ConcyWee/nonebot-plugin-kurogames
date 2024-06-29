@@ -341,7 +341,7 @@
                 {% for item in roleList %}
                     {% if item.starLevel == 5 %}
                         <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
-                            <div class="rolePic"><img src="{{ item.roleIconUrl }}"></div>
+                            <div class="rolePic"><img src="{{ item.roleIconUrl }}" width="63.938" height="63.938" object-fit: cover;></div>
                             <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/{{ item.attributeName }}.png">{{ item.roleName }}</p></div>
                         </div>
                     {% endif %}
@@ -349,7 +349,7 @@
                 {% for item in roleList %}
                     {% if item.starLevel == 4 %}
                         <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
-                            <div class="rolePic"><img src="{{ item.roleIconUrl }}"></div>
+                            <div class="rolePic"><img src="{{ item.roleIconUrl }}" width="63.938" height="63.938" object-fit: cover;></div>
                             <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/{{ item.attributeName }}.png">{{ item.roleName }}</p></div>
                         </div>
                     {% endif %}
