@@ -33,7 +33,7 @@ async def gacha_analysis(qq_id, gacha_type):
                 first_five_star_index = i
             else:
                 draws_after_last_star = sum(1 for entry in gacha_data[first_five_star_index+1:i] if entry['qualityLevel'] != 5) + 1
-                five_star_analysis[gacha_data[first_five_star_index]['name']] = {
+                five_star_analysis[gacha_data[first_five_star_index]['name'] + '-' + str(i)] = {
                     'draws_after': draws_after_last_star,
                     'time': gacha_data[first_five_star_index]['time']
                 }
@@ -43,12 +43,12 @@ async def gacha_analysis(qq_id, gacha_type):
 
     if first_five_star_index is not None:
         draws_after_last_star = sum(1 for entry in gacha_data[first_five_star_index+1:] if entry['qualityLevel'] != 5) + 1
-        five_star_analysis[gacha_data[first_five_star_index]['name']] = {
+        five_star_analysis[gacha_data[first_five_star_index]['name'] + '-' + str(i)] = {
             'draws_after': draws_after_last_star,
             'time': gacha_data[first_five_star_index]['time']
         }
 
     for name, info in five_star_analysis.items():
-        result += f"{name}: {info['draws_after']} 抽 - 获得时间: {info['time']}\n"
+        result += f"{name.split('-')[0]}: {info['draws_after']} 抽 - 获得时间: {info['time']}\n"
     result += f"\n卡池已垫了{padded_draws} 抽\n"
     return result
