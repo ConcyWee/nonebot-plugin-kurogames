@@ -62,16 +62,24 @@ async def gacha_analysis(qq_id, gacha_type):
             five_star_count     += 1
             up_five_star_count  += 1
 
-    gacha_count = len(gacha_data)
-    each_five_star_cost    = gacha_count // five_star_count
-    each_up_five_star_cost = gacha_count // up_five_star_count
-    luck_analyse           = await gacha_luck_analyse(each_up_five_star_cost)
+    result += "\n"
 
-    result += f"\n平均{each_five_star_cost}抽出金\n"
-    if card_pool_type == 1 or card_pool_type == 2:
-        result += f"平均{each_up_five_star_cost}抽获得一个当期up\n"
-    result += f"{luck_analyse}\n"
-    result += f"卡池已垫了{padded_draws} 抽\n"
+    gacha_count = len(gacha_data)
+    if five_star_count != 0:
+        each_five_star_cost    = gacha_count // five_star_count
+        result += f"平均{each_five_star_cost}抽出金\n"
+        if up_five_star_count != 0:
+            each_up_five_star_cost = gacha_count // up_five_star_count
+            if card_pool_type == 1 or card_pool_type == 2:
+                result += f"平均{each_up_five_star_cost}抽获得一个当期up\n"
+        else:
+            each_up_five_star_cost = 114514 #哼哼哼啊啊啊啊啊啊啊啊啊啊
+        luck_analyse           = await gacha_luck_analyse(each_up_five_star_cost)
+
+        result += f"{luck_analyse}\n"
+    else:
+        result += f"暂时还没出金呦~\n"
+    result += f"卡池已垫了{padded_draws} 抽"
 
     return result
 
@@ -92,3 +100,5 @@ async def gacha_luck_analyse(each_five_star_cost):
         return f"发现了非酋"
     if each_five_star_cost > 150 and each_five_star_cost <= 160:
         return f"究极大非酋"
+    if each_five_star_cost == 114514: #哼哼哼啊啊啊啊啊啊啊啊啊啊
+        return f"还没抽到up呦~"

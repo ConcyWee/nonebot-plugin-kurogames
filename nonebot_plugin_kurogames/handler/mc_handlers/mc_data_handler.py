@@ -1,7 +1,7 @@
 import json
 import time
 from .mc_detail_handler import *
-from .mc_pic_render import mc_pic_render
+from .mc_pic_render import *
 from ..calculate_time_stamp import calculate_time_stamp
 async def mc_data_handler(data_row):
 
@@ -47,3 +47,17 @@ async def mc_data_handler(data_row):
 
     data_pic = await mc_pic_render(mc_result)   
     return data_pic
+
+async def mc_explore_detail_handler(data_row):
+    mc_result           = {}
+    user_token          = data_row[4]
+    token_data          = json.loads(user_token)['data']['token']
+    try:
+        mc_detail       = await get_mc_resource(token_data)
+    except:
+        return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
+    mc_explore_data     = await get_mc_explore_index(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    
+    data_pic            = await mc_explore_render(mc_explore_data['data'])
+    return data_pic
+
