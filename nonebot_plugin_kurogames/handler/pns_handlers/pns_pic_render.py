@@ -45,7 +45,8 @@ async def pic_generator(data):
 
 
         await page.set_viewport_size({"width": 1080, "height": 1920})
-        await page.goto(rendered_template_path)
+        url = f'file://{os.path.abspath(rendered_template_path)}'
+        await page.goto(url)
         await page.wait_for_load_state("networkidle")
         screenshot_binary = await page.screenshot(type="png")
         await page.close()

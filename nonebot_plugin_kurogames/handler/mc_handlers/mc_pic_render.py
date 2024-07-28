@@ -43,7 +43,8 @@ async def mc_pic_render(data):
         page = await context.new_page()
 
         await page.set_viewport_size({"width": 1920, "height": 1080})
-        await page.goto(rendered_template_path)
+        url = f'file://{os.path.abspath(rendered_template_path)}'
+        await page.goto(url)
         await page.evaluate('document.body.style.zoom = "500%"')
         await page.wait_for_load_state("networkidle")
         screenshot_binary = await page.screenshot(type="png", full_page=True)
@@ -75,7 +76,8 @@ async def mc_explore_render(data):
         page = await context.new_page()
 
         await page.set_viewport_size({"width": 1920, "height": 1080})
-        await page.goto(rendered_template_path)
+        url = f'file://{os.path.abspath(rendered_template_path)}'
+        await page.goto(url)
         await page.evaluate('document.body.style.zoom = "500%"')
         await page.wait_for_load_state("networkidle")
         screenshot_binary = await page.screenshot(type="png", full_page=True)
