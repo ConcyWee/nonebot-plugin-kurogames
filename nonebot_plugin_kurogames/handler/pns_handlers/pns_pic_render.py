@@ -29,7 +29,7 @@ async def pic_generator(data):
     parent_parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     static_dir = os.path.join(parent_parent_dir, 'Static')
     rendered_template_path = os.path.join(static_dir, 'Outputs', 'rendered_template.html')
-    pns_result_path = os.path.join(static_dir, 'pnsResult.html')
+    pns_result_path = os.path.join(static_dir, 'PNSResult.html')
     
     with open(pns_result_path, 'r', encoding='utf-8') as file:
         template_str = file.read()

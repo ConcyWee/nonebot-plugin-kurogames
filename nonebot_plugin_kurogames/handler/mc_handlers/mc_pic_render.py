@@ -28,7 +28,7 @@ async def mc_pic_render(data):
     parent_parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     static_dir = os.path.join(parent_parent_dir, 'Static')
     rendered_template_path = os.path.join(static_dir, 'Outputs', 'mc_rendered_template.html')
-    mc_result_path = os.path.join(static_dir, 'mcResult.html')
+    mc_result_path = os.path.join(static_dir, 'MCResult.html')
 
     with open(mc_result_path, 'r', encoding='utf-8') as file:
         template_str = file.read()
