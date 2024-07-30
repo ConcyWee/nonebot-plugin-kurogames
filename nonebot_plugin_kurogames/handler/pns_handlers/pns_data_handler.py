@@ -29,6 +29,11 @@ async def pns_data_handler(data_row):
     pns_result['actionRefreshTimeStamp']      = calculate_time_stamp(pns_detail['data']['actionData']['refreshTimeStamp'], current_timestamp) if pns_detail['data']['actionData']['refreshTimeStamp'] != 0 else "血清已满"
     pns_result['blackCardNum']                = pns_resource['data']['currentBlackCard']
     pns_result['developResourceNum']          = pns_resource['data']['currentDevelopResource']
+    pns_result['roleDevelopNum']              = pns_resource['data']['currentDevelopResourceDetailed']['roleDevelopNum']
+    pns_result['weaponDevelopNum']            = pns_resource['data']['currentDevelopResourceDetailed']['weaponDevelopNum']
+    pns_result['assistDevelopNum']            = pns_resource['data']['currentDevelopResourceDetailed']['assistDevelopNum']
+    pns_result['baseRoleNum']                 = pns_resource['data']['currentDevelopResourceDetailed']['baseRoleNum']
+    pns_result['baseWeaponNum']               = pns_resource['data']['currentDevelopResourceDetailed']['baseWeaponNum']
     pns_result['bossRefreshTimeStamp']        = calculate_time_stamp(pns_detail['data']['bossData'][0]['refreshTimeStamp'],current_timestamp) if pns_detail['data']['bossData'][0]['refreshTimeStamp'] != None else "非战斗期"
     pns_result['bossBlackCard']               = pns_detail['data']['bossData'][0]['value']
     pns_result['transfiniteNum']              = pns_detail['data']['bossData'][1]['value']

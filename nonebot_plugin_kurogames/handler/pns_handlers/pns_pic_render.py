@@ -22,7 +22,12 @@ async def pic_generator(data):
         'arenaRefreshTimeStamp'       : data['arenaRefreshTimeStamp'],
         'arenaBlackCard'              : data['arenaBlackCard'],
         'strongHoldRate'              : data['strongHoldRate'],
-        'strongHoldTimeStamp'         : data['strongHoldTimeStamp']
+        'strongHoldTimeStamp'         : data['strongHoldTimeStamp'],
+        'roleDevelopNum'              : data['roleDevelopNum'],
+        'weaponDevelopNum'            : data['weaponDevelopNum'],
+        'assistDevelopNum'            : data['assistDevelopNum'],
+        'baseRoleNum'                 : data['baseRoleNum'],
+        'baseWeaponNum'               : data['baseWeaponNum'],
     }
 
 

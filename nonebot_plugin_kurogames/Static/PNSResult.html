@@ -40,6 +40,14 @@ html, body {
 
 .div-section {
   width: 100%;
+  height: calc(18% - 25px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.head-div-section {
+  width: 100%;
   height: calc(25% - 25px);
   display: flex;
   justify-content: space-between;
@@ -159,8 +167,7 @@ html, body {
   height: 100%; /* 确保内容在分配的高度内垂直居中 */
   width: 50%;
   padding-left: 25px;
-  padding-top: 20%;
-  padding-bottom: 20%;
+  padding-top: 8%;
 }
 
 </style>
@@ -168,10 +175,10 @@ html, body {
 <body>
 <div class="background"></div> <!-- 新增背景层 -->
 <div class="container">
-  <div class="div-section">
+  <div class="head-div-section">
     <div class="full-div">
       <div class="full-div-header" style="width: 100%;height: 50%;">
-        <img class="pnsIcon" src="../Pics/pns_pics/pns.png" alt="pns-logo" style="margin-right: 24px;">
+        <img class="pnsIcon" src="../Pics/pns_pics/PNS.png" alt="pns-logo" style="margin-right: 24px;">
         <div>
           <div class="flex-vertical-center">
             <div class="mr-4 text-14 name" style="font-size: 64px;">{{ roleName }}</div>
@@ -204,7 +211,7 @@ html, body {
   <div class="div-section">
     <div class="sub-div">
       <div class="" style="display: flex;">
-        <img class="icon" src="../Pics/pns_pics/actionIcon.png" alt="pns-logo" style="margin-top: 28%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
+        <img class="icon" src="../Pics/pns_pics/ACTIONICON.png" alt="pns-logo" style="margin-top: 15%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
         <div class="icon-item">
           <span class="icon-span">血清数量：</span>
           <span class="icon-span">{{ actionValue }}</span>
@@ -215,7 +222,7 @@ html, body {
     </div>
     <div class="sub-div">
       <div class="" style="display: flex;">
-        <img class="icon" src="../Pics/pns_pics/blackCard.png" alt="pns-logo" style="margin-top: 28%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
+        <img class="icon" src="../Pics/pns_pics/BLACKCARD.png" alt="pns-logo" style="margin-top: 15%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
         <div class="icon-item">
           <span class="icon-span">黑卡：</span>
           <span class="icon-span">{{ blackCardNum }}</span>
@@ -228,7 +235,7 @@ html, body {
   <div class="div-section">
     <div class="sub-div">
       <div class="" style="display: flex;">
-        <img class="icon" src="../Pics/pns_pics/bossIcon.png" alt="pns-logo" style="margin-top: 28%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
+        <img class="icon" src="../Pics/pns_pics/BOSSICON.png" alt="pns-logo" style="margin-top: 15%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
         <div class="icon-item">
           <span class="icon-span">幻痛刷新：</span>
           <span class="icon-span" style="font-size: 32px;">{{ bossRefreshTimeStamp }}</span>
@@ -239,7 +246,7 @@ html, body {
     </div>
     <div class="sub-div">
       <div class="" style="display: flex;">
-        <img class="icon" src="../Pics/pns_pics/transfiniteIcon.png" alt="pns-logo" style="margin-top: 28%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
+        <img class="icon" src="../Pics/pns_pics/TRANSFINITEICON.png" alt="pns-logo" style="margin-top: 15%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
         <div class="icon-item">
           <span class="icon-span">历战映射：</span>
           <span class="icon-span">{{ transfiniteNum }}</span>
@@ -252,7 +259,7 @@ html, body {
   <div class="div-section">
     <div class="sub-div">
       <div class="" style="display: flex;">
-        <img class="icon" src="../Pics/pns_pics/arenaIcon.png" alt="pns-logo" style="margin-top: 28%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
+        <img class="icon" src="../Pics/pns_pics/ARENAICON.png" alt="pns-logo" style="margin-top: 15%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
         <div class="icon-item">
           <span class="icon-span">战区刷新：</span>
           <span class="icon-span" style="font-size: 32px;">{{ arenaRefreshTimeStamp }}</span>
@@ -263,12 +270,38 @@ html, body {
     </div>
     <div class="sub-div">
       <div class="" style="display: flex;">
-        <img class="icon" src="../Pics/pns_pics/strongHoldIcon.png" alt="pns-logo" style="margin-top: 28%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
+        <img class="icon" src="../Pics/pns_pics/STRONGHOLDICON.png" alt="pns-logo" style="margin-top: 15%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
         <div class="icon-item">
           <span class="icon-span">诺曼矿区：</span>
           <span class="icon-span">{{ strongHoldRate }}</span>
           <span class="icon-span">距离刷新：</span>
           <span class="icon-span" style="font-size: 32px;">{{ strongHoldTimeStamp }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="div-section">
+    <div class="sub-div">
+      <div class="" style="display: flex;">
+        <img class="icon" src="../Pics/pns_pics/ACTIVECOUPON.png" alt="pns-logo" style="margin-top: 15%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
+        <div class="icon-item">
+          <span class="icon-span" style="font-size: 40px;">角色研发券：</span>
+          <span class="icon-span" style="font-size: 32px;">{{ roleDevelopNum }}</span>
+          <span class="icon-span" style="font-size: 40px;">武器研发券：</span>
+          <span class="icon-span" style="font-size: 32px;">{{ weaponDevelopNum }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="sub-div">
+      <div class="" style="display: flex;">
+        <img class="icon" src="../Pics/pns_pics/BASECOUPON.png" alt="pns-logo" style="margin-top: 15%;margin-left: 10%;border-radius: 100%;overflow: hidden;">
+        <div class="icon-item" style="padding-top: 3%;">
+          <span class="icon-span" style="font-size: 32px;">辅助机研发券：</span>
+          <span class="icon-span" style="font-size: 40px;">{{ assistDevelopNum }}</span>
+          <span class="icon-span" style="font-size: 32px;">角色基准券：</span>
+          <span class="icon-span" style="font-size: 40px;">{{ baseRoleNum }}</span>
+          <span class="icon-span" style="font-size: 32px;">武器基准券：</span>
+          <span class="icon-span" style="font-size: 40px;">{{ baseWeaponNum }}</span>
         </div>
       </div>
     </div>
