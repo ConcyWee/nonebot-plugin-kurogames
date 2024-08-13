@@ -249,11 +249,15 @@
                 </div>
                 <div class="stat">
                     <p style="font-size: 15px;">先约电台</p>
+                    {% if battlePassData[1].total == 0 %}
+                    <h4 style="font-size: 20px; width: 300px">当前先约电台各频道暂未开播</h4>
+                    {% else %}
                     <h4 style="font-size: 15px;">LV.{{ battlePassData[0].cur }}</h4>
                     <h4 style="font-size: 15px;">{{ battlePassData[1].cur }}/{{ battlePassData[1].total }}</h4>
+                    {% endif %}
                 </div>
                 <div class="stat1">
-                    <div class="progress-bar"><div style="width: {{ battlePassData[1].cur/battlePassData[1].total*100 }}%;"></div></div>
+                    <div class="progress-bar"><div style="width: {{ '0' if battlePassData[1].total == 0 else battlePassData[1].cur / battlePassData[1].total * 100 }}%;"></div></div>
                 </div>
             </div>
         </div>
@@ -280,20 +284,20 @@
                 </div>
                 <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
                     <div>
-                        <p class="myData">{{ baseData.achievementCount }}</p>
-                        <p class="dataTitle">已达成成就</p>
-                    </div>
-                </div>
-                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
-                    <div>
                         <p class="myData">{{ baseData.roleNum }}</p>
                         <p class="dataTitle">解锁角色</p>
                     </div>
                 </div>
                 <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
                     <div>
-                        <p class="myData">{{baseData.soundBox}}</p>
-                        <p class="dataTitle">背包声匣数</p>
+                        <p class="myData">{{ baseData.achievementCount }}</p>
+                        <p class="dataTitle">已达成成就</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">{{baseData.achievementStar}}</p>
+                        <p class="dataTitle">成就星数</p>
                     </div>
                 </div>
                 <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
