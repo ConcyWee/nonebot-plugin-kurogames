@@ -171,3 +171,10 @@ token格式如下所示
 ### 2024.06.06
 
 - 增加鸣潮数据查询
+
+
+## 🐧 写在最后
+欢迎加入用户交流群~
+https://qm.qq.com/q/qSclXekdH4
+![qrcode_1724496065359](https://github.com/user-attachments/assets/592ccd28-a92c-4069-9b89-a74b227bb796)
+
