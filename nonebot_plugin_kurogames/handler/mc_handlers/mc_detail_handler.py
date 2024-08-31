@@ -117,6 +117,16 @@ async def get_mc_gacha(usr_id, record_id, card_pool_type, server_id):
     form_data_json = json.dumps(form_data)
     return await do_fetch(GACHA_URL, gacha_header_data, form_data_json)
 
+async def get_mc_role_detail(usr_id, server_id, role_id, token):
+    ROLE_DETAIL_URL = 'http://api.kurobbs.com/gamer/roleBox/aki/getRoleDetail'
+    header_data['token'] = token
+    form_data = {
+        'gameId'    : 3,
+        'roleId'    : usr_id,
+        'serverId'  : server_id,
+        'id'        : role_id
+    }
+    return await do_fetch(ROLE_DETAIL_URL, header_data, form_data)
 
 async def do_fetch(url, header, data):
     async with httpx.AsyncClient() as client:

@@ -32,7 +32,8 @@ mingchao       = on_command("mcsj",         aliases={"鸣潮详情", "mcxq", "�
 kuro_daily     = on_command("库洛签到",      aliases={"战双签到", "鸣潮签到", "库街区每日", "库洛每日", "库街区签到"}, priority=5)
 mc_gacha       = on_command("鸣潮抽卡分析",  aliases={"鸣潮抽卡记录", "鸣潮抽卡历史", "鸣潮抽卡详情", "鸣潮抽卡数据"}, priority=5)
 mc_gacha_login = on_command("鸣潮数据码录入", aliases={"鸣潮抽卡录入", "鸣潮抽卡登陆", "鸣潮抽卡登录"}, priority=5)
-mc_explore     = on_command("鸣潮探索数据",   aliases={"鸣潮探索详情", "鸣潮地图数据", "鸣潮地图详情"}, priority=5)
+mc_explore     = on_command("鸣潮探索数据",   aliases={"鸣潮探索详情", "鸣潮地图数据", "鸣潮地图详情", "鸣潮探索进度"}, priority=5)
+mc_role_detail = on_command("鸣潮角色面板",   aliases={"鸣潮角色详情", "鸣潮角色数据"}, priority=5)
 
 @kuro_login.handle()
 async def _(bot:Bot, event: MessageEvent, arg: Message = CommandArg()):
@@ -122,7 +123,24 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     if data_row:
         pic_result = await mc_explore_detail_handler(data_row)
         if isinstance(pic_result, str):
-            await mingchao.finish(MessageSegment.text(pic_result))
-        await mingchao.finish(MessageSegment.image(pic_result))
+            await mc_explore.finish(MessageSegment.text(pic_result))
+        await mc_explore.finish(MessageSegment.image(pic_result))
     else:
-        await mingchao.finish("请先输入token")
+        await mc_explore.finish("请先输入token")
+
+@mc_role_detail.handle()
+async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
+    user_id = event.get_user_id()
+    data_row = await get_kuro_token(user_id)
+    if data_row:
+        if args != '':
+            role_name = args.extract_plain_text()
+            pic_result = await mc_role_detail_handler(data_row, role_name)
+        else:
+            await mc_role_detail.finish("请输入要查询的角色")
+        if isinstance(pic_result, str):
+            await mc_role_detail.finish(MessageSegment.text(pic_result))
+        else:
+            await mc_role_detail.finish(MessageSegment.image(pic_result))
+    else:
+        await mc_role_detail.finish("请先输入token")

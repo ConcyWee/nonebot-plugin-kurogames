@@ -2,6 +2,29 @@ import os
 from jinja2 import Template
 from playwright.async_api import async_playwright
 
+async def html_render(file_path, rendered_template_path, data, width, height):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        template_str = file.read()
+    template = Template(template_str)
+    rendered_html = template.render(data)
+    with open(rendered_template_path, 'w', encoding='utf-8') as file:
+        file.write(rendered_html)
+    
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True, args=["--disable-gpu"])
+        context = await browser.new_context()
+        page = await context.new_page()
+
+        await page.set_viewport_size({"width": width, "height": height})
+        url = f'file://{os.path.abspath(rendered_template_path)}'
+        await page.goto(url)
+        await page.evaluate('document.body.style.zoom = "500%"')
+        await page.wait_for_load_state("networkidle")
+        screenshot_binary = await page.screenshot(type="png", full_page=True)
+        await page.close()
+        await browser.close()
+    return screenshot_binary
+
 async def mc_pic_render(data):
     data = {
         'roleName'          : data['roleName'],
@@ -30,28 +53,8 @@ async def mc_pic_render(data):
     rendered_template_path = os.path.join(static_dir, 'Outputs', 'mc_rendered_template.html')
     mc_result_path = os.path.join(static_dir, 'MCResult.html')
 
-    with open(mc_result_path, 'r', encoding='utf-8') as file:
-        template_str = file.read()
-    template = Template(template_str)
-    rendered_html = template.render(data)
-    with open(rendered_template_path, 'w', encoding='utf-8') as file:
-        file.write(rendered_html)
-    
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True, args=["--disable-gpu"])
-        context = await browser.new_context()
-        page = await context.new_page()
-
-        await page.set_viewport_size({"width": 1920, "height": 1080})
-        url = f'file://{os.path.abspath(rendered_template_path)}'
-        await page.goto(url)
-        await page.evaluate('document.body.style.zoom = "500%"')
-        await page.wait_for_load_state("networkidle")
-        screenshot_binary = await page.screenshot(type="png", full_page=True)
-        await page.close()
-        await browser.close()
-
-    return screenshot_binary
+    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080)
+    return result
 
 async def mc_explore_render(data):
     data = {
@@ -63,25 +66,42 @@ async def mc_explore_render(data):
     rendered_template_path = os.path.join(static_dir, 'Outputs', 'exploration_template.html')
     mc_result_path = os.path.join(static_dir, 'Exploration.html')
 
-    with open(mc_result_path, 'r', encoding='utf-8') as file:
-        template_str = file.read()
-    template = Template(template_str)
-    rendered_html = template.render(data)
-    with open(rendered_template_path, 'w', encoding='utf-8') as file:
-        file.write(rendered_html)
+    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080)
+    return result
+
+async def mc_role_detail_render(data, user_data):
+    chainList = 6
+    for chain in data['chainList']:
+        if  chain['unlocked'] == False:
+            chainList = chain['order'] - 1
+            break
+    data = {
+        'userName'          : user_data['name'],
+        'userId'            : user_data['id'],
+        'roleName'          : data['role']['roleName'],
+        'rolePic'           : data['role']['rolePicUrl'],
+        'starLevel'         : data['role']['starLevel'],
+        'roleBreach'        : data['role']['breach'],
+        'attributeName'     : data['role']['attributeName'],
+        'level'             : data['level'],
+        'chainList'         : chainList,
+        'weaponName'        : data['weaponData']['weapon']['weaponName'],
+        'weaponPic'         : data['weaponData']['weapon']['weaponIcon'],
+        'weaponLevel'       : data['weaponData']['level'],
+        'weaponStarLevel'   : data['weaponData']['weapon']['weaponStarLevel'],
+        'weaponBreach'      : data['weaponData']['breach'],
+        'weaponEffectName'  : data['weaponData']['weapon']['weaponEffectName'],
+        'weaponEffectDesc'  : data['weaponData']['weapon']['effectDescription'],
+        'weaponResonLevel'  : data['weaponData']['resonLevel'],
+        'phantomData'       : data['phantomData']['equipPhantomList'],
+        'skillList'         : data['skillList']
+    }
+
+    parent_parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    static_dir = os.path.join(parent_parent_dir, 'Static')
+    rendered_template_path = os.path.join(static_dir, 'Outputs', 'mc_role_detail_template.html')
+    mc_result_path = os.path.join(static_dir, 'RoleDetail.html')
     
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True, args=["--disable-gpu"])
-        context = await browser.new_context()
-        page = await context.new_page()
+    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080)
+    return result
 
-        await page.set_viewport_size({"width": 1920, "height": 1080})
-        url = f'file://{os.path.abspath(rendered_template_path)}'
-        await page.goto(url)
-        await page.evaluate('document.body.style.zoom = "500%"')
-        await page.wait_for_load_state("networkidle")
-        screenshot_binary = await page.screenshot(type="png", full_page=True)
-        await page.close()
-        await browser.close()
-
-    return screenshot_binary

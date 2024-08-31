@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: "Microsoft YaHei";
+  }
+
+  #container {
+    width: 761px;
+    height: 1382px;
+    background-image: url("../Pics/mc_pics/role_detail_bg.png");
+  }
+
+  #header {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    margin-bottom: 50px;
+  }
+
+  #user-info {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-style: italic;
+    font-size: 30px;
+    font-weight: 800;
+    color: #aaaaaa;
+  }
+
+  #attribute-icon {
+    position: relative;
+    width: 100px;
+    top: 48px;
+    left: 5px;
+  }
+
+  #role-name {
+    position: relative;
+    top: -45px;
+    left: 130px;
+    font-size: 50px;
+    font-weight: 400;
+    width: 300px;
+  }
+
+  #role-level {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    color: #5e4f2e;
+    font-size: 24px;
+    width: 300px;
+  }
+
+  #role-star {
+    position: relative;
+    top: 0px;
+    left: 30px;
+    font-size: 25px;
+    width: 300px;
+  }
+
+  #role-star-detail {
+    position: relative;
+    top: 5px;
+    left: 30px;
+    padding-right: 5px;
+    font-size: 34px;
+    height: 25px;
+  }
+
+  #role-breach {
+    position: relative;
+    top: 15px;
+    left: 30px;
+    font-size: 25px;
+    width: 300px;
+  }
+
+  #role-breach-detail {
+    position: relative;
+    top: 20px;
+    left: 30px;
+    height: 25px;
+    margin: 0px 0px 0px 0px;
+  }
+
+  #weapon-breach-detail {
+    position: relative;
+    top: 10px;
+    left: 0px;
+    height: 15px;
+    margin: 0px 5px 0px 0px;
+    text-align: left;
+  }
+
+  #weapon-breach-detail> img {
+    position: relative;
+    height: 15px;
+    margin: 0px 5px 0px 0px;
+  }
+
+  #role-pic {
+    position: absolute;
+    right: -20px;
+    top: 30px;
+    height: 500px;
+    mask-image: linear-gradient(to top, transparent 0%, #000 90px);
+  }
+
+  #skill {
+    height: 162px;
+  }
+
+  #skills {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 140px);
+    column-gap: 10px;
+    height: 90px;
+    width: auto;
+  }
+
+  #skill-icon {
+    position: relative;
+    margin: 10px;
+    margin-left: 30px;
+    width: 75px;
+    height: 75px;
+    background-image: url("../Pics/mc_pics/skill-bg.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  #table {
+    margin: 0px 0px 30px 18px;
+    display: grid;
+    grid-template-columns: 214px 214px 214px;
+    column-gap: 41px;
+    row-gap: 25px;
+    height: 790px;
+    width: 730px;
+  }
+
+  #table>* {
+    position: relative;
+    width: 214px;
+    height: 380px;
+    text-align: center;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  #weapon-icon-box {
+    position: relative;
+    display: inline-block;
+    height: 100px;
+    width: 100px;
+  }
+
+  #weapon-icon {
+    float: left;
+    height: 100px;
+    width: 100px;
+    mask-image: linear-gradient(to left, transparent 0%, #000 70%);
+  }
+
+  #weapon-name {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    color: #bda757;
+    font-size: 15px;
+    font-weight: 600;
+    top: 20px;
+  }
+
+  #weapon-star {
+    position: relative;
+    top: 23px;
+    height: 15px;
+    padding-right: 2px;
+    transform: translateY(6px);
+  }
+
+  #weapon-level-box {
+    display: flex;
+    vertical-align: top;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #weapon-reson-level {
+    position: relative;
+    top: 18px;
+    display: inline-block;
+    padding-bottom: 6px;
+    height: 17px;
+    width: 70px;
+    background: rgb(180, 180, 180);
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 15px;
+    transform: translateY(5px);
+  }
+
+  #weapon-effect-name {
+    height: 35px;
+    width: 100%;
+    background-color: #E5E4E0;
+    margin-top: -4.6px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 35px;
+  }
+
+  #weapon-effect-desc {
+    position: inherit;
+    top: -4px;
+    height: 186px;
+    color: #7b7774;
+    padding: 14px 14px 14px 14px;
+    font-size: 15px;
+    border-radius: 0px 0px 15px 15px;
+    text-align: left;
+  }
+
+  #chain-list {
+    position: relative;
+    margin-left: 190px;
+    margin-top: -205px;
+    width: 80px;
+    height: 40px;
+    background-color: rgb(255, 120, 120);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #skill-title {
+    display: flex;
+    padding-left: 20px;
+    width: 700px;
+    height: 60px;
+    font-size: 50px;
+    color:#b3962d;
+    align-items: center;
+  }
+
+
+  .skill-icon {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    margin-top: 15px;
+    margin-left: 15px;
+  }
+
+  .skill-level {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .phantom-header {
+    position: relative;
+    width: 100%;
+    height: 104px;
+  }
+
+  .phantom-level {
+    position: absolute;
+    padding: 0px 2px;
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .equipment-name {
+    position: relative;
+    top: -15px;
+    float: right;
+    width: 110px;
+    height: 60px;
+  }
+
+  .phantom-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    color: #4e4e4e;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .equipment-name>img {
+    height: 15px;
+  }
+
+  .phantom-icon {
+    height: 104px;
+    float: left;
+    mask-image: linear-gradient(to left, transparent 0%, #000 70%);
+  }
+
+  .phantom-attribute>div:nth-child(odd) {
+    background-color: #E5E4E0;
+  }
+
+  .phantom-attribute>div:nth-child(even) {
+    background-color: #F4F4F4;
+  }
+
+  .phantom-attribute-item {
+    width: 100%;
+    height: 40px;
+  }
+
+  .phantom-attribute-name {
+    float: left;
+    padding: 6px 0px 0px 8px;
+  }
+
+  .phantom-attribute-value {
+    float: right;
+    padding: 6px 8px 0px 0px;
+  }
+
+  .phantom-attr-icon {
+    position: relative;
+    height: 30px;
+    top: -103px;
+    z-index: 0;
+  }
+
+  .phantom-attr-div {
+    background-color: rgba(90, 90, 90, 0.4);
+    margin-left: 5px;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px 15px 15px 15px;
+  }
+</style>
+</head>
+
+<body id="body">
+  <div id="container">
+    <div id="header">
+      <div id="user-info">{{ userName }} UID:{{ userId }}</div>
+      <img src="../Pics/mc_pics/mc_elements/{{ attributeName }}.png" id="attribute-icon">
+      <div id="role-name">{{ roleName }}</div>
+      <div id="role-level">LV.{{ level }}</div>
+      <div id="role-star">共鸣者星级</div>
+      <div>
+      {% for i in range(1, starLevel + 1) %}
+      <img id="role-star-detail" src="../Pics/mc_pics/star.png">
+      {% endfor %}
+      </div>
+      <div id="role-breach">突破等级</div>
+      <div>
+        {% if roleBreach is not none %}
+        {% set roleBreach = roleBreach|int %}
+        {% for i in range(1, roleBreach + 1) %}
+          <img id="role-breach-detail" src="../Pics/mc_pics/breach.png" />
+        {% endfor %}
+        {% endif %}
+      </div>
+      <img src="{{ rolePic }}" id="role-pic">
+      <div id="chain-list"><strong>{{ chainList }}</strong> 共鸣链</div>
+
+    </div>
+
+    <div id="table">
+      <div>
+        <div id="weapon-icon-box">
+          <img src="{{ weaponPic }}" id="weapon-icon">
+          <div class="phantom-level">LV.{{ weaponLevel }}</div>
+        </div>
+        <div class="equipment-name">
+          <div id="weapon-name">{{ weaponName }}</div>
+          <div id="weapon-level-box">
+            <span id="weapon-reson-level">{{ weaponResonLevel }}阶</span>
+          </div>
+          {% for i in range(1, weaponStarLevel + 1) %}
+          <img src="../Pics/mc_pics/star.png" id="weapon-star" />
+          {% endfor %}
+        </div>
+        <div id="weapon-effect-name">{{ weaponEffectName }}</div>
+        <div id="weapon-effect-desc">
+          {{ weaponEffectDesc }}
+        </div>
+      </div>
+      {% if phantomData is not none %}
+      {% for phantom in phantomData %}
+      {% if phantom is not none %}
+      <div class="phantom-list">
+        <div class="phantom-header">
+          <img src="{{ phantom['phantomProp']['iconUrl'] }}" class="phantom-icon" />
+          <div class="phantom-attr-div"><img src="{{ phantom['fetterDetail']['iconUrl'] }}" class="phantom-attr-icon" /></div>
+          <div class="phantom-level">+{{ phantom['level'] }}</div>
+          <div class="equipment-name">
+            <div class="phantom-name">{{ phantom['phantomProp']['name'] }}</div>
+            <span class="phantom-cost">COST <strong>{{ phantom['phantomProp']['cost'] }}</strong></span>
+          </div>
+        </div>
+        <div class="phantom-attribute">
+          {% if phantom['mainProps'] is not none %}
+          {% for mainProp in phantom['mainProps'] %}
+          <div class="phantom-attribute-item">
+            <span class="phantom-attribute-name">{{ mainProp['attributeName'] }}</span>
+            <span class="phantom-attribute-value">{{ mainProp['attributeValue'] }}</span>
+          </div>
+          {% endfor %}
+          {% endif %}
+          {% if phantom['subProps'] is not none %}
+          {% for subProp in phantom['subProps'] %}
+          <div class="phantom-attribute-item">
+            <span class="phantom-attribute-name">{{ subProp['attributeName'] }}</span>
+            <span class="phantom-attribute-value">{{ subProp['attributeValue'] }}</span>
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+
+    </div>
+    <div id="skill-title">共鸣技能等级详情</div>
+    <div id="skills">
+      {% for skillPic in skillList %}
+      {% if skillPic['skill']['type'] != '延奏技能' %}
+      <div id="skill-icon">
+        <img class="skill-icon" src="{{ skillPic['skill']['iconUrl'] }}">
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div id="skills">
+      {% for skillLevel in skillList %}
+      {% if skillLevel['skill']['type'] != '延奏技能' %}
+      <div class="skill-level">{{ skillLevel['skill']['type'] }}<br />{{ skillLevel['skill']['name'] }}<br />{{ skillLevel['level'] }}/10</div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+</body>
+
+</html>

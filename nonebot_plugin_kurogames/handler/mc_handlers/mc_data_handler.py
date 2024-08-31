@@ -61,3 +61,27 @@ async def mc_explore_detail_handler(data_row):
     data_pic            = await mc_explore_render(mc_explore_data['data'])
     return data_pic
 
+async def mc_role_detail_handler(data_row, role_name : str):
+    mc_result           = {}
+    role_exist_flag     = role_id = False
+    user_token          = data_row[4]
+    token_data          = json.loads(user_token)['data']['token']
+    # token_data          = data_row['data']['token'] # 测试用
+    try:
+        mc_detail       = await get_mc_resource(token_data)
+    except:
+        return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
+    
+    role_list = await get_mc_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    role_data = role_list['data']['roleList']
+    for role in role_data:
+        if (role['roleName'] == role_name) or (role_name in role['roleName'] and '漂泊者' in role_name):
+            role_exist_flag = True
+            role_id         = role['roleId']
+    if not role_exist_flag:
+        return "你还没有获得该角色哦~"
+    role_detail = await get_mc_role_detail(mc_detail['data']['roleId'], mc_detail['data']['serverId'], role_id, token_data)
+    user_data   = await get_mc_base_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+
+    data_pic = await mc_role_detail_render(role_detail['data'], user_data['data'])
+    return data_pic
