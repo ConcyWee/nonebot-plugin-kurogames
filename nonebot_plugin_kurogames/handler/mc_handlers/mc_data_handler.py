@@ -95,6 +95,7 @@ async def mc_tower_detail_handler(data_row):
         mc_detail       = await get_mc_resource(token_data)
     except:
         return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
+    await refresh_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
     tower_data = await get_mc_tower_detail(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
     user_data   = await get_mc_base_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
 
