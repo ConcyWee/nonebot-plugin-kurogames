@@ -85,3 +85,21 @@ async def mc_role_detail_handler(data_row, role_name : str):
 
     data_pic = await mc_role_detail_render(role_detail['data'], user_data['data'])
     return data_pic
+
+async def mc_tower_detail_handler(data_row):
+    mc_result           = {}
+    user_token          = data_row[4]
+    token_data          = json.loads(user_token)['data']['token']
+    # token_data          = data_row['data']['token'] # 测试用
+    try:
+        mc_detail       = await get_mc_resource(token_data)
+    except:
+        return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
+    tower_data = await get_mc_tower_detail(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    user_data   = await get_mc_base_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+
+    data_pic = await mc_tower_render(tower_data['data'], user_data['data'])
+    if not data_pic:
+        return "当前逆境深塔暂未开启~"
+    return data_pic
+    

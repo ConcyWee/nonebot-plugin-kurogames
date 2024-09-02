@@ -2,7 +2,7 @@ import os
 from jinja2 import Template
 from playwright.async_api import async_playwright
 
-async def html_render(file_path, rendered_template_path, data, width, height):
+async def html_render(file_path, rendered_template_path, data, width, height, zoom_size):
     with open(file_path, 'r', encoding='utf-8') as file:
         template_str = file.read()
     template = Template(template_str)
@@ -18,7 +18,7 @@ async def html_render(file_path, rendered_template_path, data, width, height):
         await page.set_viewport_size({"width": width, "height": height})
         url = f'file://{os.path.abspath(rendered_template_path)}'
         await page.goto(url)
-        await page.evaluate('document.body.style.zoom = "500%"')
+        await page.evaluate('document.body.style.zoom = "' + zoom_size + '%"')
         await page.wait_for_load_state("networkidle")
         screenshot_binary = await page.screenshot(type="png", full_page=True)
         await page.close()
@@ -53,7 +53,7 @@ async def mc_pic_render(data):
     rendered_template_path = os.path.join(static_dir, 'Outputs', 'mc_rendered_template.html')
     mc_result_path = os.path.join(static_dir, 'MCResult.html')
 
-    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080)
+    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080, '500')
     return result
 
 async def mc_explore_render(data):
@@ -66,7 +66,7 @@ async def mc_explore_render(data):
     rendered_template_path = os.path.join(static_dir, 'Outputs', 'exploration_template.html')
     mc_result_path = os.path.join(static_dir, 'Exploration.html')
 
-    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080)
+    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080, '500')
     return result
 
 async def mc_role_detail_render(data, user_data):
@@ -102,6 +102,24 @@ async def mc_role_detail_render(data, user_data):
     rendered_template_path = os.path.join(static_dir, 'Outputs', 'mc_role_detail_template.html')
     mc_result_path = os.path.join(static_dir, 'RoleDetail.html')
     
-    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080)
+    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080, '500')
+    return result
+
+async def mc_tower_render(data, user_data):
+    difficultyListLen = len(data['difficultyList'])
+    if difficultyListLen < 3:
+        return False
+    data = {
+        'userName'          : user_data['name'],
+        'userId'            : user_data['id'],
+        'towerData'         : data['difficultyList'][2]['towerAreaList']
+    }
+
+    parent_parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    static_dir = os.path.join(parent_parent_dir, 'Static')
+    rendered_template_path = os.path.join(static_dir, 'Outputs', 'mc_tower_detail_template.html')
+    mc_result_path = os.path.join(static_dir, 'TowerDetail.html')
+
+    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080, '300')
     return result
 

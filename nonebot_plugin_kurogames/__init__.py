@@ -34,6 +34,7 @@ mc_gacha       = on_command("鸣潮抽卡分析",  aliases={"鸣潮抽卡记录"
 mc_gacha_login = on_command("鸣潮数据码录入", aliases={"鸣潮抽卡录入", "鸣潮抽卡登陆", "鸣潮抽卡登录"}, priority=5)
 mc_explore     = on_command("鸣潮探索数据",   aliases={"鸣潮探索详情", "鸣潮地图数据", "鸣潮地图详情", "鸣潮探索进度"}, priority=5)
 mc_role_detail = on_command("鸣潮角色面板",   aliases={"鸣潮角色详情", "鸣潮角色数据"}, priority=5)
+mc_tower_detail= on_command("鸣潮深渊详情",  aliases={"鸣潮深渊数据", "逆境深塔详情", "逆境深塔数据", "鸣潮逆境深塔详情", "鸣潮逆境深塔数据"}, priority=5)
 
 @kuro_login.handle()
 async def _(bot:Bot, event: MessageEvent, arg: Message = CommandArg()):
@@ -144,3 +145,16 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             await mc_role_detail.finish(MessageSegment.image(pic_result))
     else:
         await mc_role_detail.finish("请先输入token")
+
+@mc_tower_detail.handle()
+async def _(bot: Bot, event: MessageEvent):
+    user_id = event.get_user_id()
+    data_row = await get_kuro_token(user_id)
+    if data_row:
+        result = await mc_tower_detail_handler(data_row)
+        if isinstance(result, str):
+           await mc_tower_detail.finish(MessageSegment.text(result))
+        else:
+           await mc_tower_detail.finish(MessageSegment.image(result))
+    else:
+        await mc_tower_detail.finish("请先输入token")

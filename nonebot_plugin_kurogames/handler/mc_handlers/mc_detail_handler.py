@@ -128,6 +128,16 @@ async def get_mc_role_detail(usr_id, server_id, role_id, token):
     }
     return await do_fetch(ROLE_DETAIL_URL, header_data, form_data)
 
+async def get_mc_tower_detail(usr_id, server_id, token):
+    TOWER_DETAIL_URL = 'http://api.kurobbs.com/gamer/roleBox/aki/towerDataDetail'
+    header_data['token'] = token
+    form_data = {
+        'gameId'    : 3,
+        'roleId'    : usr_id,
+        'serverId'  : server_id
+    }
+    return await do_fetch(TOWER_DETAIL_URL, header_data, form_data)
+
 async def do_fetch(url, header, data):
     async with httpx.AsyncClient() as client:
         try:
