@@ -117,14 +117,14 @@ token格式如下所示
   
 ![IMG_20240610_204654](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/91b9203c-18a4-4e65-bd29-dde8ff901356)
 
-![IMG_20240510_185200](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/0ad515f3-cfc2-4ab6-a433-3056c944d754)
+![a983f0b88c19bfb57ab2c948bd73e80a](https://github.com/user-attachments/assets/1c1845f6-304a-41bb-a6c8-ad200727bc32)
 
 </details>
 
 #### 鸣潮：
 <details>
   
-![IMG_20240610_204714](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/b31ed2c7-f8d7-4721-8da3-220b03bf9c90)
+![199342ecfe749534ba395f712f739da1](https://github.com/user-attachments/assets/e80c70cd-35d4-40cc-9033-5e8e149b4ab5)
 
 ![1717680630759](https://github.com/ConcyWee/nonebot-plugin-kurogames/assets/36001297/ae3c91f5-a87f-4521-9ada-ea804d9834df)
 
