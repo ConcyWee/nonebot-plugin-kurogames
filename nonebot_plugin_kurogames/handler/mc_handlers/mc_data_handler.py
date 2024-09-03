@@ -72,6 +72,7 @@ async def mc_role_detail_handler(data_row, role_name : str):
     except:
         return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
     
+    await refresh_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
     role_list = await get_mc_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
     role_data = role_list['data']['roleList']
     for role in role_data:
