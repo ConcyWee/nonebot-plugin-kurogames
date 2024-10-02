@@ -336,27 +336,27 @@
                         <p class="dataTitle">辉光奇藏箱</p>
                     </div>
                 </div>
-                
+
             </div>
         </div>
         <div class="section">
             <h3>共鸣者</h3>
             <div class="characters">
                 {% for item in roleList %}
-                    {% if item.starLevel == 5 %}
-                        <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
-                            <div class="rolePic"><img src="{{ item.roleIconUrl }}" width="63.938" height="63.938" object-fit: cover;></div>
-                            <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/{{ item.attributeName }}.png">{{ item.roleName }}</p></div>
-                        </div>
-                    {% endif %}
+                {% if item.starLevel == 5 %}
+                <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
+                    <div class="rolePic"><img src="{{ item.roleIconUrl }}" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/{{ item.attributeName }}.png">{{ item.roleName }}</p></div>
+                </div>
+                {% endif %}
                 {% endfor %}
                 {% for item in roleList %}
-                    {% if item.starLevel == 4 %}
-                        <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
-                            <div class="rolePic"><img src="{{ item.roleIconUrl }}" width="63.938" height="63.938" object-fit: cover;></div>
-                            <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/{{ item.attributeName }}.png">{{ item.roleName }}</p></div>
-                        </div>
-                    {% endif %}
+                {% if item.starLevel == 4 %}
+                <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                    <div class="rolePic"><img src="{{ item.roleIconUrl }}" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/{{ item.attributeName }}.png">{{ item.roleName }}</p></div>
+                </div>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>
@@ -374,17 +374,70 @@
                 <p style="margin: 0;">COST上限：{{ cost }}</p>
             </div>
         </div>
+        <style>
+            .challenges {
+                display: block;
+            }
+
+            .challenge {
+                position: relative;
+                width: 100%;
+                height: auto;
+                background-size: cover;
+                background-position: center;
+                margin: 5px 0;
+                color: black;
+                border-radius: 8px;
+                overflow: hidden;
+                display: flex;
+                align-items: flex-start;
+                padding: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .challenge-image {
+                width: 100px; /* 调整头像宽度 */
+                height: 100px; /* 调整头像高度 */
+                background-size: cover;
+                background-position: center;
+                margin-right: 10px; /* 调整头像与信息框之间的间距 */
+                border-radius: 0%; /* 圆形头像 */
+            }
+
+            .challenge-info {
+                background: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(5px);
+                padding: 10px;
+                border-radius: 8px;
+                width: 100%;
+            }
+
+            .boss-name, .difficulty, .pass-time {
+                font-size: 1em;
+                margin: 5px 0;
+                color: black;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        </style>
+
         <div class="section">
             <h3>挑战数据</h3>
             <div class="challenges">
-                {% for item in challengeList %}
-                    <div class="challenge" style="background-image: url({{ item.bossIconUrl }});">
-                        <h4>{{ item.bossName }}</h4>
-                        <p>当前难度：{{ item.difficulty }}/6</p>
+                {% for boss, item in challengeInfo.items() %}
+                <div class="challenge">
+                    <div class="challenge-image" style="background-image: url('{{ item.bossHeadIcon }}');"></div>
+                    <div class="challenge-info">
+                        <h4 class="boss-name">{{ item.bossName }}</h4>
+                        <p class="difficulty">难度：{{ item.difficulty }}/6</p>
+                        <p class="pass-time">通关时间：{{ item.passTime }} 秒</p>
                     </div>
+                </div>
                 {% endfor %}
             </div>
         </div>
+
         <div class="section">
             <h3>探索数据</h3>
             <div class="exploration">

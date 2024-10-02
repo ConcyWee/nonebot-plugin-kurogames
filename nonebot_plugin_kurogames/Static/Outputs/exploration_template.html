@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC Exploration</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei";
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .section {
+            padding: 20px;
+            border-bottom: 1px solid #eeeeee;
+            background-color: rgb(255, 254, 253);
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #333333;
+        }
+        .exploration {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .exploration-item{
+            width: 100%;
+        }
+        .exploration-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #666666;
+        }
+        .exploration-item h4 {
+            margin: 5px 0 0;
+            font-size: 16px;
+            color: #333333;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #a4a596;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+            border: 3px solid rgba(255, 255, 255, 0);
+            box-sizing: border-box;
+        }
+        .progress-bar div {
+            height: 10px;
+            background-color: #99821b;
+            width: 50%; 
+        }
+        .exploration-item {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .region-task {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            font-weight: bold;
+            font-size: small;
+            border:0.5px solid #99821b;
+        }
+        .region-task:nth-child(odd) {
+            background-color: #d3d3cc; 
+        }
+        .region-task:nth-child(even) {
+            background-color: #ffffff;
+        }
+        .progress-bar {
+            width: 55%;
+            margin-left: 5px;
+        }
+
+    </style>
+    <body>
+        <div class="section" style="width: 330px;">
+            <h3>探索数据</h3>
+            <div class="exploration">
+                <div class="exploration-item">
+                    <div style="background-image: url(../Pics/mc_pics/explore_bg.png); display: flex; align-items: center; height: 50px">
+                        <img src="../Pics/mc_pics/logo.png" style="width: 40px; height: 40px; margin-left: 4%;">
+                        <p style="margin-left: 20px; font-size: 15px; font-weight:bold; color: rgb(223, 216, 173);">瑝珑&nbsp;&nbsp;&nbsp;&nbsp;%</p>
+                    </div>
+                    <div style="height: 5px;">&nbsp;</div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
