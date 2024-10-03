@@ -10,10 +10,9 @@ async def mc_data_handler(data_row):
     token_data          = json.loads(user_token)['data']['token']
     # token_data          = data_row['data']['token'] # 测试用
     try:
-        mc_detail           = await get_mc_resource(token_data)
+        mc_detail = await get_mc_resource(token_data)
     except:
         return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
-    
     #沟槽的库洛，角色数据也得刷新👊😡
     await refresh_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
 
@@ -41,9 +40,9 @@ async def mc_data_handler(data_row):
     mc_result['maxCount']           = mc_calabash_data['data']['maxCount']
     mc_result['unlockCount']        = mc_calabash_data['data']['unlockCount']
     mc_result['phantomList']        = mc_calabash_data['data']['phantomList']
-    mc_result['challengeList']      = mc_challange_data['data']['indexList']
+    mc_result['challengeInfo']      = mc_challange_data['data']['challengeInfo']
     mc_result['baseData']           = mc_base_data['data']
-    mc_result['exploreData']        = mc_explore_data['data']
+    mc_result['exploreData']        = mc_explore_data['data']['exploreList'][0]  #根据2024年10月2日api返回结果 只取了第一个地区的探索度数据
 
     data_pic = await mc_pic_render(mc_result)   
     return data_pic
@@ -82,9 +81,11 @@ async def mc_role_detail_handler(data_row, role_name : str):
     if not role_exist_flag:
         return "你还没有获得该角色哦~"
     role_detail = await get_mc_role_detail(mc_detail['data']['roleId'], mc_detail['data']['serverId'], role_id, token_data)
+    print('角色数据请求成功')
     user_data   = await get_mc_base_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
-
+    print('用户数据请求成功')
     data_pic = await mc_role_detail_render(role_detail['data'], user_data['data'])
+    print('图片数据生成成功')
     return data_pic
 
 async def mc_tower_detail_handler(data_row):

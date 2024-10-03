@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Profile</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei";
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .profile {
+            width: 375px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .header {
+            background: url('header-background.jpg') no-repeat center center;
+            background-size: cover;
+            padding: 20px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+        }
+        .header img {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin-right: 20px;
+        }
+        .header .info {
+            flex: 1;
+        }
+        .header .info h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .header .info p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+        .header .rank {
+            background-color: #f39c12;
+            border-radius: 20px;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .section {
+            padding: 20px;
+            border-bottom: 1px solid #eeeeee;
+            background-color: rgb(255, 254, 253);
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section h3 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #333333;
+        }
+        .stats, .characters, .data, .exploration {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .stat{
+            width: 50%;
+            padding: 10px 0;
+        }
+        .stat1, .chanllenge {
+            width: 100%;
+            padding: 10px 0;
+        }
+        .exploration-item{
+            width: 100%;
+        }
+        .stat p, challenge p, .exploration-item p {
+            margin: 0;
+            font-size: 14px;
+            color: #666666;
+        }
+        .stat h4, .character h4, .challenge h4, .exploration-item h4 {
+            margin: 5px 0 0;
+            font-size: 16px;
+            color: #333333;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #c7c7c7;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-bar div {
+            height: 10px;
+            background-color: #857c0a;
+            width: 50%; 
+        }
+        .characters .character {
+            width: 23%; 
+            text-align: center;
+            position: relative;
+            padding: 3px;
+            box-sizing: border-box;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-left: 3px;
+            margin-right: 3px;
+        }
+        .character h4 {
+            position: absolute;
+            bottom: 100px;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            font-size: 14px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 0;
+            box-sizing: border-box;
+        }
+        .character img {
+            width: 90%; 
+            object-fit: contain; 
+        }
+        .challenge {
+            background-size: cover;
+            background-position: center;
+            text-align: right;
+            height: 70px;
+        }
+        .roleDetail p {
+            justify-content: left;
+            text-align: left;
+            font-size: 9px;
+            color: #ffffff;
+            display: flex;
+            align-items: flex-start; 
+        }
+
+        .roleDetail p img {
+            width: 20px; 
+            object-fit: contain;
+            vertical-align: top;
+        }
+        .myData, .dataTitle{
+            vertical-align: top;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-family: "Microsoft YaHei";
+        }
+        .myData{
+            font-size: 15px;
+        }
+        .dataTitle{
+            font-size: 9px;
+        }
+        .data-item {
+            display: flex;
+            align-items: center; 
+        }
+
+        .data-item img {
+            width: 100px;
+            height: 100px; 
+            object-fit: cover; 
+        }
+
+        .data-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around; 
+            height: 100px;
+            margin-left: 10px; 
+        }
+        .container {
+            display: flex;
+            align-items: flex-start;
+            padding-left: 20px;
+        }
+
+        .image-container {
+            width: 200px;
+        }
+
+        .image-container image {
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .text-overlay {
+            position: absolute;
+            left: -1%;
+            transform: translate(-50%, -50%); 
+            color: white;
+            font-size: 24px;
+        }
+
+        .text-container {
+            margin-left: -10%;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="profile" style="margin-top: 0px; margin-bottom: 0px;">
+        <div class="header" style="background-image: url(../Pics/mc_pics/header_bg.jpg);">
+            <img src="../Pics/mc_pics/mc.png" style="width: 100px; height: 100px;" alt="Profile Picture">
+            <div class="info">
+                <h2>灿</h2>
+                <p>鸣潮 | ID: 111762078</p>
+                <p>成就数: 154</p>
+                <p>角色数量: 17</p>
+                <p>声骸收集进度: 100%</p>
+            </div>
+            <div class="rank">53级</div>
+        </div>
+        <div class="section" style="background-image: url(../Pics/mc_pics/bg-mask.png); background-size: cover; background-repeat: no-repeat;">
+            <h3>日常数据</h3>
+            <div class="stats">
+                <div class="stat">
+                    <img src="../Pics/mc_pics/energy-icon.png" style="width: 50px; height: 50px;">
+                    <p style="font-size: 15px;">结晶碎片</p>
+                    <h4 style="font-size: 15px;">53/240</h4>
+                    <p style="font-size: 13px;">回满时长：<br>0天18小时40分</p>
+                </div>
+                <div class="stat">
+                    <img src="../Pics/mc_pics/active-icon.png" style="width: 50px; height: 50px;">
+                    <p style="font-size: 15px;">活跃度</p>
+                    <h4 style="font-size: 15px;">100/100</h4>
+                </div>
+                <div class="stat">
+                    <p style="font-size: 15px;">先约电台</p>
+                    
+                    <h4 style="font-size: 15px;">LV.4</h4>
+                    <h4 style="font-size: 15px;">1500/10000</h4>
+                    
+                </div>
+                <div class="stat1">
+                    <div class="progress-bar"><div style="width: 15.0%;"></div></div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h3>我的资料</h3>
+            <div class="characters">
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">63</p>
+                        <p class="dataTitle">游戏天数</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">53</p>
+                        <p class="dataTitle">联觉等级</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">6</p>
+                        <p class="dataTitle">索拉等级</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">17</p>
+                        <p class="dataTitle">解锁角色</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">154</p>
+                        <p class="dataTitle">已达成成就</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">222</p>
+                        <p class="dataTitle">成就星数</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">83</p>
+                        <p class="dataTitle">小型信标解锁数</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">13</p>
+                        <p class="dataTitle">中型信标解锁数</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">100</p>
+                        <p class="dataTitle">朴素奇藏箱</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">67</p>
+                        <p class="dataTitle">基准奇藏箱</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">41</p>
+                        <p class="dataTitle">精密奇藏箱</p>
+                    </div>
+                </div>
+                <div class="character" style="background-image: url('../Pics/mc_pics/myDataBG.png');">
+                    <div>
+                        <p class="myData">15</p>
+                        <p class="dataTitle">辉光奇藏箱</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="section">
+            <h3>共鸣者</h3>
+            <div class="characters">
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716030969079.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/衍射.png">漂泊者</p></div>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716030711331.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/热熔.png">安可</p></div>
+                </div>
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716031108616.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/导电.png">卡卡罗</p></div>
+                </div>
+                
+                
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716030805758.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/衍射.png">维里奈</p></div>
+                </div>
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716031026758.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/冷凝.png">凌阳</p></div>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716031151394.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/气动.png">鉴心</p></div>
+                </div>
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1719544241384.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/衍射.png">今汐</p></div>
+                </div>
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/5star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1725446170576.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/冷凝.png">折枝</p></div>
+                </div>
+                
+                
+                
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716031170021.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/气动.png">秧秧</p></div>
+                </div>
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716031234646.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/热熔.png">炽霞</p></div>
+                </div>
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716030474112.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/冷凝.png">白芷</p></div>
+                </div>
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716030480742.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/热熔.png">莫特斐</p></div>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716030644166.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/湮灭.png">桃祈</p></div>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716031059095.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/湮灭.png">丹瑾</p></div>
+                </div>
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716030775019.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/气动.png">秋水</p></div>
+                </div>
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716030760796.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/导电.png">渊武</p></div>
+                </div>
+                
+                
+                
+                <div class="character" style="background-image: url('../Pics/mc_pics/4star_bg.png');">
+                    <div class="rolePic"><img src="https://web-static.kurobbs.com/adminConfig/27/role_icon/1716031187754.png" width="63.938" height="63.938" object-fit: cover;></div>
+                    <div class="roleDetail"><p style="justify-content: left; margin: 0px;"><img src="../Pics/mc_pics/mc_elements/冷凝.png">散华</p></div>
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                
+            </div>
+        </div>
+        <h3 style="padding-left: 20px;">数据坞信息</h3>
+        <div class="container">
+            <div class="image-container">
+                <div class="image" style="background-image: url(../Pics/mc_pics/calabash.png); width: 150px; height: 150px; background-size: cover;">
+                    <div class="text-overlay" style="position: relative; top: 60%; transform: translateY(-50%); text-align: center; width: 100%; color: white; font-size: 24px;">21</div>
+                </div>
+            </div>
+            <div class="text-container" style="display: flex; flex-direction: column; justify-content: space-around; height: 150px;">
+                <p style="margin: 0;">基础吸收概率：20%</p>
+                <p style="margin: 0;">强化吸收概率：100%</p>
+                <p style="margin: 0;">最高可吸收品质：5星</p>
+                <p style="margin: 0;">COST上限：12</p>
+            </div>
+        </div>
+        <style>
+            .challenges {
+                display: block;
+            }
+
+            .challenge {
+                position: relative;
+                width: 100%;
+                height: auto;
+                background-size: cover;
+                background-position: center;
+                margin: 5px 0;
+                color: black;
+                border-radius: 8px;
+                overflow: hidden;
+                display: flex;
+                align-items: flex-start;
+                padding: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .challenge-image {
+                width: 100px; /* 调整头像宽度 */
+                height: 100px; /* 调整头像高度 */
+                background-size: cover;
+                background-position: center;
+                margin-right: 10px; /* 调整头像与信息框之间的间距 */
+                border-radius: 0%; /* 圆形头像 */
+            }
+
+            .challenge-info {
+                background: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(5px);
+                padding: 10px;
+                border-radius: 8px;
+                width: 100%;
+            }
+
+            .boss-name, .difficulty, .pass-time {
+                font-size: 1em;
+                margin: 5px 0;
+                color: black;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        </style>
+
+        <div class="section">
+            <h3>挑战数据</h3>
+            <div class="challenges">
+                
+                <div class="challenge">
+                    <div class="challenge-image" style="background-image: url('https://web-static.kurobbs.com/adminConfig/28/boss_icon/1716031794689.png');"></div>
+                    <div class="challenge-info">
+                        <h4 class="boss-name">朔雷之鳞</h4>
+                        <p class="difficulty">难度：2/6</p>
+                        <p class="pass-time">通关时间：53 秒</p>
+                    </div>
+                </div>
+                
+                <div class="challenge">
+                    <div class="challenge-image" style="background-image: url('https://web-static.kurobbs.com/adminConfig/28/boss_icon/1716031181923.png');"></div>
+                    <div class="challenge-info">
+                        <h4 class="boss-name">无常凶鹭</h4>
+                        <p class="difficulty">难度：2/6</p>
+                        <p class="pass-time">通关时间：42 秒</p>
+                    </div>
+                </div>
+                
+                <div class="challenge">
+                    <div class="challenge-image" style="background-image: url('https://web-static.kurobbs.com/adminConfig/28/boss_icon/1716031718295.png');"></div>
+                    <div class="challenge-info">
+                        <h4 class="boss-name">哀声鸷</h4>
+                        <p class="difficulty">难度：3/6</p>
+                        <p class="pass-time">通关时间：91 秒</p>
+                    </div>
+                </div>
+                
+                <div class="challenge">
+                    <div class="challenge-image" style="background-image: url('https://web-static.kurobbs.com/adminConfig/28/boss_icon/1716031257086.png');"></div>
+                    <div class="challenge-info">
+                        <h4 class="boss-name">飞廉之猩</h4>
+                        <p class="difficulty">难度：1/6</p>
+                        <p class="pass-time">通关时间：257 秒</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>探索数据</h3>
+            <div class="exploration">
+                <div class="exploration-item">
+                    <div style="background-image: url(../Pics/mc_pics/titleBg.png); background-size: contain; background-repeat: no-repeat; display: flex; align-items: center;">
+                        <img src="../Pics/mc_pics/logo.png" style="width: 40px; height: 40px; margin-left: 8%;">
+                        <p style="margin-left: 10px; font-size: 15px; font-weight:bold; color: rgb(223, 216, 173);">瑝珑</p>
+                    </div>
+                    <div>探索度：37.09%</div>
+                    <div class="progress-bar" style="width: 95%; margin-left: 3%;"><div style="width: 37.09%;"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
