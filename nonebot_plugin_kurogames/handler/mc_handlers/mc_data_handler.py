@@ -37,19 +37,18 @@ async def mc_data_handler(data_row):
     mc_result['livenessData']       = mc_detail['data']['livenessData']
     mc_result['battlePassData']     = mc_detail['data']['battlePassData']
     mc_result['refreshTime']        = calculate_time_stamp(mc_detail['data']['energyData']['refreshTimeStamp'], current_timestamp) if mc_detail['data']['energyData']['refreshTimeStamp'] != 0 else "体力已满"
-    mc_result['roleList']           = mc_role_data_data['roleList']
-    mc_result['calabashLevel']      = mc_calabash_data_data['level']
-    mc_result['baseCatch']          = mc_calabash_data_data['baseCatch']
-    mc_result['strengthenCatch']    = mc_calabash_data_data['strengthenCatch']
-    mc_result['catchQuality']       = mc_calabash_data_data['catchQuality']
-    mc_result['cost']               = mc_calabash_data_data['cost']
-    mc_result['maxCount']           = mc_calabash_data_data['maxCount']
-    mc_result['unlockCount']        = mc_calabash_data_data['unlockCount']
-    mc_result['phantomList']        = mc_calabash_data_data['phantomList']
-    mc_result['challengeInfo']      = mc_challange_data_data['challengeInfo']
-    mc_result['baseData']           = mc_base_data_data
-    print(mc_base_data_data)
-    mc_result['exploreData']        = mc_explore_data_data['exploreList']
+    mc_result['roleList']           = mc_role_data['data']['roleList']
+    mc_result['calabashLevel']      = mc_calabash_data['data']['level']
+    mc_result['baseCatch']          = mc_calabash_data['data']['baseCatch']
+    mc_result['strengthenCatch']    = mc_calabash_data['data']['strengthenCatch']
+    mc_result['catchQuality']       = mc_calabash_data['data']['catchQuality']
+    mc_result['cost']               = mc_calabash_data['data']['cost']
+    mc_result['maxCount']           = mc_calabash_data['data']['maxCount']
+    mc_result['unlockCount']        = mc_calabash_data['data']['unlockCount']
+    mc_result['phantomList']        = mc_calabash_data['data']['phantomList']
+    mc_result['challengeInfo']      = mc_challange_data['data']['challengeInfo']
+    mc_result['baseData']           = mc_base_data['data']
+    mc_result['exploreData']        = mc_explore_data['data']['exploreList'][0]  #根据2024年10月2日api返回结果 只取了第一个地区的探索度数据
 
     data_pic = await mc_pic_render(mc_result)
     return data_pic

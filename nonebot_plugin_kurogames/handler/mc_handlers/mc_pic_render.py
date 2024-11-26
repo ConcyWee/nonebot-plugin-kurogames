@@ -26,6 +26,25 @@ async def html_render(file_path, rendered_template_path, data, width, height, zo
         await browser.close()
     return screenshot_binary
 
+async def mc_data_handler(data_row):
+    """
+    处理挑战数据
+    """
+    max_difficulties = {}
+
+    # 遍历 challengeInfo 字典
+    for challengeId, items in data_row['challengeInfo'].items():
+        for item in items:
+            # 只处理已通关的挑战
+            if item['passTime'] != 0:
+                boss_name = item['bossName']
+                # 检查是否已经存在该 Boss 的记录
+                if boss_name not in max_difficulties or item['difficulty'] > max_difficulties[boss_name]['difficulty']:
+                    max_difficulties[boss_name] = item  # 更新为更高难度的记录
+
+    return max_difficulties  # 返回最高难度的挑战记录
+
+
 async def mc_pic_render(data):
     max_difficulties = {}
     for challengeId, items in data['challengeInfo'].items():

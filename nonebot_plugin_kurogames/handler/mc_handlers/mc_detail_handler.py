@@ -150,20 +150,20 @@ async def do_fetch(url, header, data):
                 raise Exception('fetch error: ', response.status_code, response.reason_phrase)
             else:
                 rsp = response.json()
-                # ½âÃÜÊı¾İ
+                # è§£å¯†æ•°æ®
                 if 'data' in rsp:
                     encrypted_data = rsp['data']
-                    # print(f"Encrypted data: {encrypted_data}")  # µ÷ÊÔĞÅÏ¢
+                    # print(f"Encrypted data: {encrypted_data}")  # è°ƒè¯•ä¿¡æ¯
 
                     if isinstance(encrypted_data, dict):
                         # print("encrypted_data is a dict. Please check the structure.")
-                        return rsp  # »òÕßÄã¿ÉÒÔ¸ù¾İĞèÒª´¦Àí×Öµä
+                        return rsp  # æˆ–è€…ä½ å¯ä»¥æ ¹æ®éœ€è¦å¤„ç†å­—å…¸
 
-                    # ³¢ÊÔ½âÃÜÊı¾İ
+                    # å°è¯•è§£å¯†æ•°æ®
                     decrypted_data = await decrypt_data(encrypted_data)
 
-                    # ½öÔÚ½âÃÜ³É¹¦Ê±¸üĞÂ rsp['data']
-                    if isinstance(decrypted_data, dict):  # ¼ì²é½âÃÜ½á¹ûÊÇ·ñÎª×Öµä
+                    # ä»…åœ¨è§£å¯†æˆåŠŸæ—¶æ›´æ–° rsp['data']
+                    if isinstance(decrypted_data, dict):  # æ£€æŸ¥è§£å¯†ç»“æœæ˜¯å¦ä¸ºå­—å…¸
                         rsp['data'] = decrypted_data
 
                 if rsp.get('code') == 200 or rsp.get('message') == "success":
@@ -176,25 +176,25 @@ async def do_fetch(url, header, data):
 
 async def decrypt_data(value):
     """
-    :param value:¼ÓÃÜÊı¾İ
-    :return:½âÃÜ½á¹û
+    :param value:åŠ å¯†æ•°æ®
+    :return:è§£å¯†ç»“æœ
     """
     key = base64.b64decode("XSNLFgNCth8j8oJI3cNIdw==")
 
     try:
-        # ³¢ÊÔ½âÂëºÍ½âÃÜ
+        # å°è¯•è§£ç å’Œè§£å¯†
         encrypted = base64.b64decode(value)
 
-        # AES-128-ECBÄ£Ê½
+        # AES-128-ECBæ¨¡å¼
         cipher = AES.new(key, AES.MODE_ECB)
         decrypted = cipher.decrypt(encrypted)
 
-        # È¥³ıÌî³ä²¢½âÎö JSON
+        # å»é™¤å¡«å……å¹¶è§£æ JSON
         padding_length = decrypted[-1]
         decrypted = decrypted[:-padding_length]
 
         return json.loads(decrypted.decode('utf-8'))
 
     except Exception as e:
-        # print(f": {e}, ·µ»ØÔ­Ê¼ÄÚÈİ")
-        return value  # ·µ»ØÔ­Ê¼ÄÚÈİ
+        # print(f": {e}, è¿”å›åŸå§‹å†…å®¹")
+        return value  # è¿”å›åŸå§‹å†…å®¹
