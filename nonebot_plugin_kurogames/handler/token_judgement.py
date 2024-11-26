@@ -4,7 +4,7 @@ def token_judgement(token):
     try:
         data_dict = json.loads(token)
     except ValueError as e:
-        return "错误: "+str(e)
+        return "错误: "+ "输入的格式有误！请检查您输入的内容！使用“库洛帮助”命令可查看正确格式"
     required_keys = ["code", "data", "msg", "success"]
     for key in required_keys:
         if key not in data_dict:

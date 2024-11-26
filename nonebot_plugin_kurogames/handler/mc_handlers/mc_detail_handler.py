@@ -1,5 +1,7 @@
 import httpx
 import json
+import base64
+from Crypto.Cipher import AES
 
 header_data = {
         'osversion': 'Android',
@@ -25,7 +27,7 @@ header_data = {
     }
 
 async def refresh_role_data(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/aki/refreshData'
+    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/refreshData'
     header_data['token'] = token
     form_data = {
         'gameId': 3,
@@ -44,7 +46,7 @@ async def get_mc_resource(token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_role_data(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/aki/roleData'
+    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/roleData'
     header_data['token'] = token
     form_data = {
         'gameId': 3,
@@ -54,7 +56,7 @@ async def get_mc_role_data(roleId, serverId, token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_calabash_data(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/aki/calabashData'
+    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/calabashData'
     header_data['token'] = token
     form_data = {
         'gameId': 3,
@@ -64,7 +66,7 @@ async def get_mc_calabash_data(roleId, serverId, token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_challenge_index(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/aki/challengeIndex'
+    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/challengeDetails'
     header_data['token'] = token
     form_data = {
         'gameId' : 3,
@@ -75,7 +77,7 @@ async def get_mc_challenge_index(roleId, serverId, token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_base_data(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/aki/baseData'
+    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/baseData'
     header_data['token'] = token
     form_data = {
         'gameId' : 3,
@@ -85,7 +87,7 @@ async def get_mc_base_data(roleId, serverId, token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_explore_index(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/aki/exploreIndex'
+    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/exploreIndex'
     header_data['token'] = token
     form_data = {
         'gameId' : 3,
@@ -118,7 +120,7 @@ async def get_mc_gacha(usr_id, record_id, card_pool_type, server_id):
     return await do_fetch(GACHA_URL, gacha_header_data, form_data_json)
 
 async def get_mc_role_detail(usr_id, server_id, role_id, token):
-    ROLE_DETAIL_URL = 'http://api.kurobbs.com/gamer/roleBox/aki/getRoleDetail'
+    ROLE_DETAIL_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/getRoleDetail'
     header_data['token'] = token
     form_data = {
         'gameId'    : 3,
@@ -129,7 +131,7 @@ async def get_mc_role_detail(usr_id, server_id, role_id, token):
     return await do_fetch(ROLE_DETAIL_URL, header_data, form_data)
 
 async def get_mc_tower_detail(usr_id, server_id, token):
-    TOWER_DETAIL_URL = 'http://api.kurobbs.com/gamer/roleBox/aki/towerDataDetail'
+    TOWER_DETAIL_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/towerDataDetail'
     header_data['token'] = token
     form_data = {
         'gameId'    : 3,
@@ -138,18 +140,61 @@ async def get_mc_tower_detail(usr_id, server_id, token):
     }
     return await do_fetch(TOWER_DETAIL_URL, header_data, form_data)
 
+
 async def do_fetch(url, header, data):
     async with httpx.AsyncClient() as client:
         try:
             response = await client.post(url, headers=header, data=data)
-            if not (response.status_code == 200 or (response.status_code == 0 and response.json.get('message') == 'success')):
+            if not (response.status_code == 200 or (
+                    response.status_code == 0 and response.json().get('message') == 'success')):
                 raise Exception('fetch error: ', response.status_code, response.reason_phrase)
             else:
                 rsp = response.json()
+                # 解密数据
+                if 'data' in rsp:
+                    encrypted_data = rsp['data']
+                    # print(f"Encrypted data: {encrypted_data}")  # 调试信息
+
+                    if isinstance(encrypted_data, dict):
+                        # print("encrypted_data is a dict. Please check the structure.")
+                        return rsp  # 或者你可以根据需要处理字典
+
+                    # 尝试解密数据
+                    decrypted_data = await decrypt_data(encrypted_data)
+
+                    # 仅在解密成功时更新 rsp['data']
+                    if isinstance(decrypted_data, dict):  # 检查解密结果是否为字典
+                        rsp['data'] = decrypted_data
 
                 if rsp.get('code') == 200 or rsp.get('message') == "success":
                     return rsp
                 else:
                     raise Exception('api error:', rsp)
         except Exception as e:
-            raise Exception('fetch error: '+ str(e))
+            raise Exception('fetch error: ' + str(e))
+
+
+async def decrypt_data(value):
+    """
+    :param value:加密数据
+    :return:解密结果
+    """
+    key = base64.b64decode("XSNLFgNCth8j8oJI3cNIdw==")
+
+    try:
+        # 尝试解码和解密
+        encrypted = base64.b64decode(value)
+
+        # AES-128-ECB模式
+        cipher = AES.new(key, AES.MODE_ECB)
+        decrypted = cipher.decrypt(encrypted)
+
+        # 去除填充并解析 JSON
+        padding_length = decrypted[-1]
+        decrypted = decrypted[:-padding_length]
+
+        return json.loads(decrypted.decode('utf-8'))
+
+    except Exception as e:
+        # print(f": {e}, 返回原始内容")
+        return value  # 返回原始内容

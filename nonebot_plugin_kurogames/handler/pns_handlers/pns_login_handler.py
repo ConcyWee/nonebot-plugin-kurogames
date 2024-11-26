@@ -8,8 +8,9 @@ async def pns_login_handler(user_id, data_content):
 
     if data_content == "":
         return("请输入战双token, 如：/战双登录 your_token")
-    if token_judgement(data_content) != "success":
-        return(token_judgement(data_content))
+    token_result = token_judgement(data_content)
+    if token_result != "success":
+        return token_result
 
     pns_info  = await get_punishing_account_info(json.loads(data_content)["data"]["token"])
     mc_info   = await get_mc_account_info(json.loads(data_content)["data"]["token"])
