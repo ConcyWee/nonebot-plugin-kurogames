@@ -87,27 +87,29 @@
     <body>
         <div class="section" style="width: 330px;">
             <h3>探索数据</h3>
+            {% for countryData in exploreData %}
             <div class="exploration">
                 <div class="exploration-item">
-                    <div style="background-image: url(../Pics/mc_pics/explore_bg.png); display: flex; align-items: center; height: 50px">
-                        <img src="../Pics/mc_pics/logo.png" style="width: 40px; height: 40px; margin-left: 4%;">
-                        <p style="margin-left: 20px; font-size: 15px; font-weight:bold; color: rgb(223, 216, 173);">瑝珑&nbsp;&nbsp;&nbsp;&nbsp;{{ exploreData['countryProgress'] }}%</p>
+                    <div style="background-image: url({{ countryData['country']['detailPagePic'] }}); background-size: cover; background-position: center; display: flex; align-items: center; height: 50px;">
+                        
+                        <p style="margin-left: 120px; font-size: 15px; font-weight:bold; color: rgb(223, 216, 173);">{{ countryData['country']['countryName'] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ countryData['countryProgress'] }}%</p>
                     </div>
                     <div style="height: 5px;">&nbsp;</div>
                     
-                    {% for area in exploreData['areaInfoList'] %}
+                    {% for area in countryData['areaInfoList'] %}
                         <div style="background-image: url(../Pics/mc_pics/titleBg.png); background-size: 100%; height: 40px ;background-repeat: no-repeat; display: flex; align-items: center;">
                             <p style="margin-left: 10px; font-size: 15px; font-weight:bold; color: rgb(223, 216, 173);">&nbsp;&nbsp;{{ area['areaName'] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ area['areaProgress'] }}%</p>
                         </div>
                         {% for item in area['itemList'] %}
                             <div class="region-task">
-                                <div style="width: 80px">&nbsp;&nbsp;{{ item['name'] }}：</div><div class="progress-bar" ><div style="width: {{ item['progress'] }}%;"></div></div>&nbsp;&nbsp;{{ item['progress'] }}%
+                                <div style="width: 70px; margin-left: 15px">{{ item['name'] }}：</div><div class="progress-bar" ><div style="width: {{ item['progress'] }}%;"></div></div>&nbsp;&nbsp;{{ item['progress'] }}%
                             </div>
                         {% endfor %}
                         <div style="height: 10px;">&nbsp;</div>
                     {% endfor %}
                 </div>
             </div>
+            {% endfor %}
         </div>
     </body>
 </html>
