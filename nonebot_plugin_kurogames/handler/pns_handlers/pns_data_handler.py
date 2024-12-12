@@ -19,7 +19,7 @@ async def pns_data_handler(data_row):
 
 
     pns_result['roleName']                    = pns_detail['data']['roleName']
-    pns_result['level']                       = (str(pns_account['data']['pointAfter']) + "勋阶") if pns_account['data']['roleLevel'] == 120 else (str(pns_account['data']['roleLevel']) + "级")
+    pns_result['level']                       = (str(pns_account['data']['rank']) + "勋阶") if pns_account['data']['level'] == 120 else (str(pns_account['data']['level']) + "级")
     pns_result['server']                      = pns_account['data']['serverName'] + "服"
     pns_result['roleId']                      = pns_detail['data']['roleId']
     pns_result['roleScore']                   = pns_role_list['data'][0]['roleScore']
