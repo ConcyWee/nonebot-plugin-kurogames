@@ -42,6 +42,7 @@ async def kuro_sdk_login(mobile, code):
 
 async def get_punishing_resource(token):
     REFRESH_URL = 'https://api.kurobbs.com/gamer/widget/game2/refresh'
+    # REFRESH_URL = 'https://api.kurobbs.com/haru/roleBox/refreshData'
     header_data['token'] = token
     form_data = {
         'gameId': 2,
@@ -76,7 +77,8 @@ async def get_monthly_resource(roleId, token):
     return await do_fetch(MONTHLY_RESOURCE_URL, header_data, form_data)
 
 async def get_pns_game_account(roleId, serverId, token):
-    GAME_ACCOUNT_URL = 'https://api.kurobbs.com/gamer/roleBox/gameAccount'
+    # GAME_ACCOUNT_URL = 'https://api.kurobbs.com/gamer/roleBox/gameAccount'
+    GAME_ACCOUNT_URL = 'https://api.kurobbs.com/haru/roleBox/accountData'
     header_data['token'] = token
     form_data = {
         'gameId' : 2,

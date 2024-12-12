@@ -104,7 +104,7 @@ async def mc_role_detail_render(data, user_data):
         'weaponEffectName'  : data['weaponData']['weapon']['weaponEffectName'],
         'weaponEffectDesc'  : data['weaponData']['weapon']['effectDescription'],
         'weaponResonLevel'  : data['weaponData']['resonLevel'],
-        'phantomData'       : data['phantomData']['equipPhantomList'],
+        'phantomData'       : data['phantomData']['equipPhantomList'] if data['phantomData']['cost'] != 0 else [],
         'skillList'         : data['skillList']
     }
 
