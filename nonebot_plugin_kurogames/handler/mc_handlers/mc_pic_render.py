@@ -65,9 +65,8 @@ async def mc_pic_render(data):
     return result
 
 async def mc_explore_render(data):
-    exploreData = json.loads(data)
     data = {
-        'exploreData' : exploreData['exploreList']
+        'exploreData' : data
     }
 
     parent_parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

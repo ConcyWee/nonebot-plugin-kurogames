@@ -46,7 +46,7 @@ async def get_mc_resource(token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_role_data(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/roleData'
+    REFRESH_URL = 'https://api.kurobbs.com/aki/roleBox/akiBox/roleData'
     header_data['token'] = token
     form_data = {
         'gameId': 3,
@@ -56,7 +56,7 @@ async def get_mc_role_data(roleId, serverId, token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_calabash_data(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/calabashData'
+    REFRESH_URL = 'https://api.kurobbs.com/aki/roleBox/akiBox/calabashData'
     header_data['token'] = token
     form_data = {
         'gameId': 3,
@@ -66,7 +66,7 @@ async def get_mc_calabash_data(roleId, serverId, token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_challenge_index(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/challengeDetails'
+    REFRESH_URL = 'https://api.kurobbs.com/aki/roleBox/akiBox/challengeDetails'
     header_data['token'] = token
     form_data = {
         'gameId' : 3,
@@ -77,7 +77,7 @@ async def get_mc_challenge_index(roleId, serverId, token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_base_data(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/baseData'
+    REFRESH_URL = 'https://api.kurobbs.com/aki/roleBox/akiBox/baseData'
     header_data['token'] = token
     form_data = {
         'gameId' : 3,
@@ -87,7 +87,7 @@ async def get_mc_base_data(roleId, serverId, token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_explore_index(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/exploreIndex'
+    REFRESH_URL = 'https://api.kurobbs.com/aki/roleBox/akiBox/exploreIndex'
     header_data['token'] = token
     form_data = {
         'gameId' : 3,
@@ -120,7 +120,7 @@ async def get_mc_gacha(usr_id, record_id, card_pool_type, server_id):
     return await do_fetch(GACHA_URL, gacha_header_data, form_data_json)
 
 async def get_mc_role_detail(usr_id, server_id, role_id, token):
-    ROLE_DETAIL_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/getRoleDetail'
+    ROLE_DETAIL_URL = 'https://api.kurobbs.com/aki/roleBox/akiBox/getRoleDetail'
     header_data['token'] = token
     form_data = {
         'gameId'    : 3,

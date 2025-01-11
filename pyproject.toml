@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-kurogames"
-version = "0.2.20"
+version = "0.2.21"
 description = "库洛游戏数据详情 谢比螺六~"
 authors = ["ConcyWee <concywee@163.com>"]
 license = "MIT"

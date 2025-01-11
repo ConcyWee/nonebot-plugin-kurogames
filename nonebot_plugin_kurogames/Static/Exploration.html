@@ -87,16 +87,15 @@
     <body>
         <div class="section" style="width: 330px;">
             <h3>探索数据</h3>
-            {% for countryData in exploreData %}
             <div class="exploration">
                 <div class="exploration-item">
-                    <div style="background-image: url({{ countryData['country']['detailPagePic'] }}); background-size: cover; background-position: center; display: flex; align-items: center; height: 50px;">
+                    <div style="background-image: url({{ exploreData['country']['detailPagePic'] }}); background-size: cover; background-position: center; display: flex; align-items: center; height: 50px;">
                         
-                        <p style="margin-left: 120px; font-size: 15px; font-weight:bold; color: rgb(223, 216, 173);">{{ countryData['country']['countryName'] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ countryData['countryProgress'] }}%</p>
+                        <p style="margin-left: 120px; font-size: 15px; font-weight:bold; color: rgb(223, 216, 173);">{{ exploreData['country']['countryName'] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ exploreData['countryProgress'] }}%</p>
                     </div>
                     <div style="height: 5px;">&nbsp;</div>
                     
-                    {% for area in countryData['areaInfoList'] %}
+                    {% for area in exploreData['areaInfoList'] %}
                         <div style="background-image: url(../Pics/mc_pics/titleBg.png); background-size: 100%; height: 40px ;background-repeat: no-repeat; display: flex; align-items: center;">
                             <p style="margin-left: 10px; font-size: 15px; font-weight:bold; color: rgb(223, 216, 173);">&nbsp;&nbsp;{{ area['areaName'] }}&nbsp;&nbsp;&nbsp;&nbsp;{{ area['areaProgress'] }}%</p>
                         </div>
@@ -109,7 +108,7 @@
                     {% endfor %}
                 </div>
             </div>
-            {% endfor %}
+            
         </div>
     </body>
 </html>

@@ -73,7 +73,7 @@ async def _():
 @mingchao.handle()
 async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     user_id = event.get_user_id()
-    if args != '':
+    if args:
         for arg in args:
             if arg.type == "at":
                 user_id = arg.data.get("qq", "")
@@ -116,13 +116,18 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
 @mc_explore.handle()
 async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     user_id = event.get_user_id()
-    if args != '':
+    if args:
         for arg in args:
             if arg.type == "at":
                 user_id = arg.data.get("qq", "")
+            elif args.extract_plain_text():
+                area_name = args.extract_plain_text()
+    else:
+        await mc_explore.finish("请输入地区名称，例如：/鸣潮探索数据 黎那汐塔")
+                
     data_row = await get_kuro_token(user_id)
     if data_row:
-        pic_result = await mc_explore_detail_handler(data_row)
+        pic_result = await mc_explore_detail_handler(data_row, area_name)
         if isinstance(pic_result, str):
             await mc_explore.finish(MessageSegment.text(pic_result))
         await mc_explore.finish(MessageSegment.image(pic_result))
@@ -134,11 +139,11 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     user_id = event.get_user_id()
     data_row = await get_kuro_token(user_id)
     if data_row:
-        if args != '':
+        if args:
             role_name = args.extract_plain_text()
             pic_result = await mc_role_detail_handler(data_row, role_name)
         else:
-            await mc_role_detail.finish("请输入要查询的角色")
+            await mc_role_detail.finish("请输入要查询的角色，例如：/鸣潮角色数据 长离")
         if isinstance(pic_result, str):
             await mc_role_detail.finish(MessageSegment.text(pic_result))
         else:

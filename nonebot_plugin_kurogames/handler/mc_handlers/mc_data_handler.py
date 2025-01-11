@@ -53,17 +53,24 @@ async def mc_data_handler(data_row):
     data_pic = await mc_pic_render(mc_result)
     return data_pic
 
-async def mc_explore_detail_handler(data_row):
+async def mc_explore_detail_handler(data_row, area_name):
     mc_result           = {}
     user_token          = data_row[4]
+    find_flag           = True
     token_data          = json.loads(user_token)['data']['token']
     try:
         mc_detail       = await get_mc_resource(token_data)
     except:
         return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
     mc_explore_data     = await get_mc_explore_index(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
-    
-    data_pic            = await mc_explore_render(mc_explore_data['data'])
+    temp_data = json.loads(mc_explore_data['data'])
+    for area in temp_data['exploreList']:
+        if area_name.strip() == area['country']['countryName']:
+            current_explore_data = area
+            find_flag = False
+    if find_flag:
+        return "未找到该地区名，请检查您的输入"
+    data_pic            = await mc_explore_render(current_explore_data)
     return data_pic
 
 async def mc_role_detail_handler(data_row, role_name : str):
@@ -71,7 +78,7 @@ async def mc_role_detail_handler(data_row, role_name : str):
     role_exist_flag     = role_id = False
     user_token          = data_row[4]
     token_data          = json.loads(user_token)['data']['token']
-    # token_data          = data_row['data']['token'] # 测试用
+    # token_data          = data_row # 测试用
     try:
         mc_detail       = await get_mc_resource(token_data)
     except:
@@ -105,7 +112,6 @@ async def mc_tower_detail_handler(data_row):
         return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
     await refresh_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
     tower_data = await get_mc_tower_detail(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
-    print(tower_data)
     user_data   = await get_mc_base_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
 
     data_pic = await mc_tower_render(json.loads(tower_data['data']), json.loads(user_data['data']))
