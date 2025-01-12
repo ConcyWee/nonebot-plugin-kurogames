@@ -25,8 +25,10 @@ async def gacha_analysis(qq_id, gacha_type):
     record_id       = data[7]
     server_id       = data[6]
     card_pool_type  = gacha_mapping.get(gacha_type, 3)
-    gacha_data      = (await get_mc_gacha(mc_id, record_id, card_pool_type, server_id))['data']
-
+    try:
+        gacha_data      = (await get_mc_gacha(mc_id, record_id, card_pool_type, server_id))['data']
+    except:
+        return "查询失败，数据可能已过期"
     first_five_star_index = None
     padded_draws = 0
     five_star_analysis = {}

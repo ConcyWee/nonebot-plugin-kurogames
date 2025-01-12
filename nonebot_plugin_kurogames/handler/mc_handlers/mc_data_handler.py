@@ -113,7 +113,6 @@ async def mc_tower_detail_handler(data_row):
     await refresh_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
     tower_data = await get_mc_tower_detail(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
     user_data   = await get_mc_base_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
-
     data_pic = await mc_tower_render(json.loads(tower_data['data']), json.loads(user_data['data']))
     if not data_pic:
         return "当前逆境深塔暂未开启~"

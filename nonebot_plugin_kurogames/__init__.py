@@ -84,7 +84,7 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             await mingchao.finish(MessageSegment.text(pic_result))
         await mingchao.finish(MessageSegment.image(pic_result))
     else:
-        await mingchao.finish("请先输入token")
+        await mingchao.finish("当前用户信息未录入，请先录入token")
 
 @kuro_daily.handle()
 async def _(bot: Bot, event: MessageEvent):
@@ -94,7 +94,7 @@ async def _(bot: Bot, event: MessageEvent):
         daily_result = await daily_task(user_id, data_row)
         await kuro_daily.finish(MessageSegment.text(daily_result))
     else:
-        await kuro_daily.finish("请先输入token")
+        await kuro_daily.finish("当前用户信息未录入，请先录入token")
 
 @mc_gacha_login.handle()
 async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
@@ -106,7 +106,12 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
 @mc_gacha.handle()
 async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     qq_id = event.get_user_id()
-    gacha_type = args.extract_plain_text()
+    if args:
+        for arg in args:
+            if arg.type == "at":
+                qq_id = arg.data.get("qq", "")
+            else:
+                gacha_type = args.extract_plain_text().strip()
     if gacha_type in ["角色常驻", "武器常驻", "角色up", "武器up", "新手池", "新手自选池"]:
         result = await gacha_analysis(qq_id, gacha_type)
     else:
@@ -132,11 +137,15 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
             await mc_explore.finish(MessageSegment.text(pic_result))
         await mc_explore.finish(MessageSegment.image(pic_result))
     else:
-        await mc_explore.finish("请先输入token")
+        await mc_explore.finish("当前用户信息未录入，请先录入token")
 
 @mc_role_detail.handle()
 async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     user_id = event.get_user_id()
+    if args:
+        for arg in args:
+            if arg.type == "at":
+                user_id = arg.data.get("qq", "")
     data_row = await get_kuro_token(user_id)
     if data_row:
         if args:
@@ -149,11 +158,15 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
         else:
             await mc_role_detail.finish(MessageSegment.image(pic_result))
     else:
-        await mc_role_detail.finish("请先输入token")
+        await mc_role_detail.finish("当前用户信息未录入，请先录入token")
 
 @mc_tower_detail.handle()
-async def _(bot: Bot, event: MessageEvent):
+async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     user_id = event.get_user_id()
+    if args:
+        for arg in args:
+            if arg.type == "at":
+                user_id = arg.data.get("qq", "")
     data_row = await get_kuro_token(user_id)
     if data_row:
         result = await mc_tower_detail_handler(data_row)

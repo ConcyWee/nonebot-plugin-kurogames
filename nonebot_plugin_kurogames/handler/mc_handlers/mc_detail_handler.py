@@ -27,7 +27,7 @@ header_data = {
     }
 
 async def refresh_role_data(roleId, serverId, token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/refreshData'
+    REFRESH_URL = 'https://api.kurobbs.com/aki/roleBox/akiBox/refreshData'
     header_data['token'] = token
     form_data = {
         'gameId': 3,
@@ -37,7 +37,7 @@ async def refresh_role_data(roleId, serverId, token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_resource(token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/widget/game3/refresh'
+    REFRESH_URL = 'https://api.kurobbs.com/gamer/widget/game3/refresh' #gamer，没改到aki
     header_data['token'] = token
     form_data = {
         'gameId': 3,
@@ -98,7 +98,7 @@ async def get_mc_explore_index(roleId, serverId, token):
     return await do_fetch(REFRESH_URL, header_data, form_data)
 
 async def get_mc_role(token):
-    REFRESH_URL = 'https://api.kurobbs.com/gamer/role/list'
+    REFRESH_URL = 'https://api.kurobbs.com/aki/role/list'
     header_data['token'] = token
     form_data = {
         'gameId' : 3
@@ -131,7 +131,7 @@ async def get_mc_role_detail(usr_id, server_id, role_id, token):
     return await do_fetch(ROLE_DETAIL_URL, header_data, form_data)
 
 async def get_mc_tower_detail(usr_id, server_id, token):
-    TOWER_DETAIL_URL = 'https://api.kurobbs.com/gamer/roleBox/akiBox/towerDataDetail'
+    TOWER_DETAIL_URL = 'https://api.kurobbs.com/aki/roleBox/akiBox/towerDataDetail'
     header_data['token'] = token
     form_data = {
         'gameId'    : 3,
