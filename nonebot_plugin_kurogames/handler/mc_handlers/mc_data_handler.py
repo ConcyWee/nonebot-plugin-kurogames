@@ -62,6 +62,7 @@ async def mc_explore_detail_handler(data_row, area_name):
         mc_detail       = await get_mc_resource(token_data)
     except:
         return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
+    await refresh_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
     mc_explore_data     = await get_mc_explore_index(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
     temp_data = json.loads(mc_explore_data['data'])
     for area in temp_data['exploreList']:
