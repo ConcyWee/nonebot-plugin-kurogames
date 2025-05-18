@@ -54,7 +54,6 @@ async def mc_data_handler(data_row):
     return data_pic
 
 async def mc_explore_detail_handler(data_row, area_name):
-    mc_result           = {}
     user_token          = data_row[4]
     find_flag           = True
     token_data          = json.loads(user_token)['data']['token']
@@ -75,7 +74,6 @@ async def mc_explore_detail_handler(data_row, area_name):
     return data_pic
 
 async def mc_role_detail_handler(data_row, role_name : str):
-    mc_result           = {}
     role_exist_flag     = role_id = False
     user_token          = data_row[4]
     token_data          = json.loads(user_token)['data']['token']
@@ -103,7 +101,6 @@ async def mc_role_detail_handler(data_row, role_name : str):
     return data_pic
 
 async def mc_tower_detail_handler(data_row):
-    mc_result           = {}
     user_token          = data_row[4]
     token_data          = json.loads(user_token)['data']['token']
     # token_data          = data_row['data']['token'] # 测试用
@@ -117,5 +114,21 @@ async def mc_tower_detail_handler(data_row):
     data_pic = await mc_tower_render(json.loads(tower_data['data']), json.loads(user_data['data']))
     if not data_pic:
         return "当前逆境深塔暂未开启~"
+    return data_pic
+    
+async def mc_slash_detail_handler(data_row):
+    user_token          = data_row[4]
+    token_data          = json.loads(user_token)['data']['token']
+    # token_data          = data_row['data']['token'] # 测试用
+    try:
+        mc_detail       = await get_mc_resource(token_data)
+    except:
+        return "还没有设置鸣潮角色哦~请点击打开库街区App在【我的】页面中设置角色"
+    await refresh_role_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    tower_data = await get_mc_slash_detail(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    user_data   = await get_mc_base_data(mc_detail['data']['roleId'], mc_detail['data']['serverId'], token_data)
+    data_pic = await mc_slash_render(json.loads(tower_data['data']), json.loads(user_data['data']))
+    if not data_pic:
+        return "当前冥歌海墟暂未开启~"
     return data_pic
     

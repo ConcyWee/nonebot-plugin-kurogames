@@ -141,6 +141,15 @@ async def get_mc_tower_detail(usr_id, server_id, token):
     return await do_fetch(TOWER_DETAIL_URL, header_data, form_data)
 
 
+async def get_mc_slash_detail(role_id, server_id, token):
+    SLASH_DETAIL_URL = 'https://api.kurobbs.com/aki/roleBox/akiBox/slashDetail'
+    header_data['token'] = token
+    form_data = {
+        'roleId'    : role_id,
+        'serverId'  : server_id,
+    }
+    return await do_fetch(SLASH_DETAIL_URL, header_data, form_data)
+
 async def do_fetch(url, header, data):
     async with httpx.AsyncClient() as client:
         try:

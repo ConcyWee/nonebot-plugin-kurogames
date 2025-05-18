@@ -133,3 +133,22 @@ async def mc_tower_render(data, user_data):
     result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080, '300')
     return result
 
+async def mc_slash_render(data, user_data):
+    difficultyListLen = len(data['difficultyList'])
+    if difficultyListLen < 2:
+        return False
+    data = {
+        'userName'              : user_data['name'],
+        'userId'                : user_data['id'],
+        'slashDetail'           : data['difficultyList'][1],
+        'infinitySlashDetail'   : data['difficultyList'][2]
+    }
+
+    parent_parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    static_dir = os.path.join(parent_parent_dir, 'Static')
+    rendered_template_path = os.path.join(static_dir, 'Outputs', 'mc_slash_detail_template.html')
+    mc_result_path = os.path.join(static_dir, 'SlashDetail.html')
+
+    result = await html_render(mc_result_path, rendered_template_path, data, 1920, 1080, '350')
+    return result
+

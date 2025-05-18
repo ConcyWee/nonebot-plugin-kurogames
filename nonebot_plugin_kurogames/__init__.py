@@ -35,6 +35,7 @@ mc_gacha_login = on_command("鸣潮数据码录入", aliases={"鸣潮抽卡录�
 mc_explore     = on_command("鸣潮探索数据",   aliases={"鸣潮探索详情", "鸣潮地图数据", "鸣潮地图详情", "鸣潮探索进度"}, priority=5)
 mc_role_detail = on_command("鸣潮角色面板",   aliases={"鸣潮角色详情", "鸣潮角色数据"}, priority=5)
 mc_tower_detail= on_command("鸣潮深渊详情",  aliases={"鸣潮深渊数据", "逆境深塔详情", "逆境深塔数据", "鸣潮逆境深塔详情", "鸣潮逆境深塔数据"}, priority=5)
+mc_slash_detail= on_command("鸣潮海墟详情",  aliases={"鸣潮海墟数据", "鸣潮海渊数据", "冥歌海墟详情", "冥歌海墟数据", "海墟详情", "海墟数据", "鸣潮冥歌海墟数据", "新深渊数据", "鸣潮新深渊数据"}, priority=5)
 
 @kuro_login.handle()
 async def _(bot:Bot, event: MessageEvent, arg: Message = CommandArg()):
@@ -176,3 +177,21 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
            await mc_tower_detail.finish(MessageSegment.image(result))
     else:
         await mc_tower_detail.finish("请先输入token")
+
+@mc_slash_detail.handle()
+async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
+    user_id = event.get_user_id()
+    if args:
+        for arg in args:
+            if arg.type == "at":
+                user_id = arg.data.get("qq", "")
+    data_row = await get_kuro_token(user_id)
+    if data_row:
+        result = await mc_slash_detail_handler(data_row)
+        if isinstance(result, str):
+           await mc_slash_detail.finish(MessageSegment.text(result))
+        else:
+           await mc_slash_detail.finish(MessageSegment.image(result))
+    else:
+        await mc_slash_detail.finish("请先输入token")
+    

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4a235a',
+                        secondary: '#2c3e50',
+                        accent: '#8e44ad',
+                        neutral: '#f5f5f5',
+                        'text-light': '#ecf0f1',
+                        'text-medium': '#95a5a6',
+                        'text-dark': '#34495e',
+                        'gold': '#BDB157',
+                        'green': '#9CF3B0',
+                        'yellow': '#FFE65B'
+                    },
+                    fontFamily: {
+                        sans: ['Microsoft YaHei', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+
+            .text-shadow {
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            }
+            .transition-card {
+                transition: all 0.3s ease;
+            }
+            .bg-cover-no-repeat {
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+            .absolute-full {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+            .avatar-container {
+                position: relative;
+                width: 64px;
+                height: 64px;
+                margin-right: 10px;
+            }
+            .avatar-bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url('https://web-static.kurobbs.com/mcbox/assets/challenge-role-bg-8e7dd472.png');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                z-index: 1;
+            }
+            .avatar-img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 52px;
+                height: 52px;
+                border-radius: 50%;
+                z-index: 2;
+            }
+            .buff-bottom {
+                height: 4px;
+            }
+        }
+         .header {
+            background: url('header-background.jpg') no-repeat center center;
+            background-size: cover;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .header img {
+            border-radius: 50%;
+            height: 60px;
+            margin-right: 20px;
+        }
+        .header .info {
+            flex: 1;
+        }
+        .header .info h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .header .info p {
+            margin: 5px 0 0;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body class="bg-neutral min-h-screen">
+    <div class="max-w-lg mx-auto">
+        <div class="header" style="background-image: url(../Pics/mc_pics/header_bg.jpg);">
+            <img src="../Pics/mc_pics/mc.png" style="width: 120px; height: 120px;" alt="Profile Picture">
+            <div class="info">
+                <h2>{{ userName }}</h2>
+                <p>UID: {{ userId }}</p>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-card p-4 mb-4">
+            <div class="flex flex-col space-y-2">
+                <div class="flex justify-between items-center">
+                    <span>海隙总积分：</span>
+                    <span class="text-gold font-medium"><span style="color: gold;">{{ slashDetail['allScore'] }}</span>/{{ slashDetail['maxScore'] }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span>湍渊总积分：</span>
+                    <span class="text-gold font-medium"><span style="color: gold;">{{ infinitySlashDetail['allScore'] }}</span>/{{ infinitySlashDetail['maxScore'] }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-4 transition-card hover:shadow-card-hover rounded-lg overflow-hidden shadow-card">
+            <div class="text-white px-4 py-3 flex justify-between items-center" style="background-image: url('https://web-static.kurobbs.com/adminConfig/118/detail_page_bg_image/1745475695118.png'); background-size: cover;">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded mr-5"></div>
+                    <span class="font-semibold">{{ infinitySlashDetail['challengeList'][0]['challengeName'] }}</span>
+                </div>
+                <div class="flex items-center">
+                    <img src="../Pics/mc_pics/slash_{% if infinitySlashDetail['challengeList'][0]['rank'] == 'B' %}B{% elif infinitySlashDetail['challengeList'][0]['rank'] == 'A' %}A{% elif infinitySlashDetail['challengeList'][0]['rank'] == 'S' %}S{% elif infinitySlashDetail['challengeList'][0]['rank'] == 'SS' %}SS{% elif infinitySlashDetail['challengeList'][0]['rank'] == 'SSS' %}SSS{% endif %}.png" class="w-12 h-12 mr-2">
+                    <span class="font-medium text-gold text-xl">积分：{{ infinitySlashDetail['allScore'] }}</span>
+                </div>
+            </div>
+            <div class="bg-white p-0">
+                <!-- 队伍一 -->
+                 {% for halfList in infinitySlashDetail['challengeList'][0]['halfList'] %}
+                <div class="relative py-3 px-3">
+                    <div class="absolute-full bg-cover-no-repeat" style="background-image: url('https://web-static.kurobbs.com/mcbox/assets/challenge-item-bg-db2df178.png');"></div>
+                    <div class="relative z-10 flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="https://web-static.kurobbs.com/adminConfig/118/team_icon/1745476442602.png" alt="无尽队伍图标" class="w-10 h-10 mr-2">
+                            <div>
+                                <span class="text-sm font-medium">
+                                    {% if loop.index == 1 %}队伍一
+                                    {% elif loop.index == 2 %}队伍二
+                                    {% endif %}
+                                </span>
+                                <span class="text-xs text-gray-500 block">{{ halfList['score'] }}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            {% for roleList in halfList['roleList'] %}
+                            <div class="avatar-container">
+                                <div class="avatar-bg"></div>
+                                <img src="{{ roleList['iconUrl'] }}" class="avatar-img" alt="角色头像">
+                            </div>
+                            {% endfor %}
+                            <div class="relative">
+                                <img src="{{ halfList['buffIcon'] }}" alt="装备" class="w-14 h-14" style="background: linear-gradient(180deg,#1c2b39 44.29%,#898685 126.43%);">
+                                <div class="buff-bottom" style="background-color: 
+                                    {% if halfList['buffQuality'] == 5 %}rgb(255, 230, 91)
+                                    {% elif halfList['buffQuality'] == 4 %}rgb(150, 65, 130)
+                                    {% elif halfList['buffQuality'] == 3 %}rgb(100, 180, 200)
+                                    {% elif halfList['buffQuality'] == 2 %}rgb(156, 243, 176)
+                                    {% endif %}
+                                ;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+         {% for challengeList in slashDetail['challengeList'] %}
+        <div class="mb-4 transition-card hover:shadow-card-hover rounded-lg overflow-hidden shadow-card">
+            <div class="bg-gradient-s text-white px-4 py-3 flex justify-between items-center"  style="background-image: url('https://web-static.kurobbs.com/adminConfig/118/detail_page_bg_image/1745476243717.png'); background-size: cover;">
+                <div class="flex items-center">
+                    <span class="font-semibold ml-4 mr-5">{{ challengeList['challengeId'] }}</span>
+                    <span class="font-medium">{{ challengeList['challengeName'] }}</span>
+                </div>
+                <div class="flex items-center">
+                    <img src="../Pics/mc_pics/slash_{% if challengeList['rank'] == 'B' %}B{% elif challengeList['rank'] == 'A' %}A{% elif challengeList['rank'] == 'S' %}S{% elif challengeList['rank'] == 'SS' %}SS{% elif challengeList['rank'] == 'SSS' %}SSS{% endif %}.png" alt="评级" class="w-12 h-12 mr-2">
+                    <span class="font-medium text-gold text-xl">积分：{{ challengeList['score'] }}</span>
+                </div>
+            </div>
+            <div class="bg-white p-0">
+                <!-- 队伍一 -->
+                 {% for halfList in challengeList['halfList'] %}
+                <div class="relative py-3 px-3">
+                    <div class="absolute-full bg-cover-no-repeat" style="background-image: url('https://web-static.kurobbs.com/mcbox/assets/challenge-item-bg-db2df178.png');"></div>
+                    <div class="relative z-10 flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="https://web-static.kurobbs.com/adminConfig/118/team_icon/1745475630431.png" alt="队伍图标" class="w-10 h-10 mr-2">
+                            <div>
+                                <span class="text-sm font-medium">
+                                    {% if loop.index == 1 %}队伍一
+                                    {% elif loop.index == 2 %}队伍二
+                                    {% endif %}
+                                </span>
+                                <span class="text-xs text-gray-500 block">{{ halfList['score'] }}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            {% for roleList in halfList['roleList'] %}
+                            <div class="avatar-container">
+                                <div class="avatar-bg"></div>
+                                <img src="{{ roleList['iconUrl'] }}" class="avatar-img" alt="角色头像">
+                            </div>
+                            {% endfor %}
+                            <div class="relative">
+                                <img src="{{ halfList['buffIcon'] }}" alt="装备图标" class="w-14 h-14" style="background: linear-gradient(180deg,#1c2b39 44.29%,#898685 126.43%);">
+                                <div class="buff-bottom" style="background-color: 
+                                    {% if halfList['buffQuality'] == 5 %}rgb(255, 230, 91)
+                                    {% elif halfList['buffQuality'] == 4 %}rgb(150, 65, 130)
+                                    {% elif halfList['buffQuality'] == 3 %}rgb(100, 180, 200)
+                                    {% elif halfList['buffQuality'] == 2 %}rgb(156, 243, 176)
+                                    {% endif %}
+                                ;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</body>
+</html>
+                                
