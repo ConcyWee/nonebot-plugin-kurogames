@@ -4,31 +4,16 @@ import base64
 from Crypto.Cipher import AES
 
 header_data = {
-        'osversion': 'Android',
-        'devcode': 'A734EC22C2D3F93154BC2952A30ABF5A32F01753',
-        'countryCode': 'CN',
-        'pragma': 'no-cache',
-        'cache-control': 'no-cache',
-        'accept': 'application/json, text/plain, */*',
-        'model': '2201122C',
-        'source': 'android',
-        'lang': 'zh-Hans',
-        'version': '2.1.0',
-        'versionCode': '2100',
-        'token': '',
-        'content-type': 'application/x-www-form-urlencoded; charset=utf-8',
-        'x-requested-with': 'com.kurogame.kjq',
-        'sec-fetch-site': 'same-site',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-dest': 'empty',
-        'accept-encoding': 'gzip, deflate, br, zstd',
-        'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
-        'user-agent': 'okhttp/3.10.0',
+        'source' : 'ios',
+        'token' : '',
     }
 
 async def refresh_role_data(roleId, serverId, token):
+    bat = await request_token(roleId, serverId, token)
+    b_at = json.loads(bat['data'])['accessToken']
     REFRESH_URL = 'https://api.kurobbs.com/aki/roleBox/akiBox/refreshData'
     header_data['token'] = token
+    header_data['b-at'] = b_at
     form_data = {
         'gameId': 3,
         'roleId' : roleId,
@@ -150,11 +135,21 @@ async def get_mc_slash_detail(role_id, server_id, token):
     }
     return await do_fetch(SLASH_DETAIL_URL, header_data, form_data)
 
+async def request_token(role_id, server_id,token):
+    REQUEST_URL = 'https://api.kurobbs.com/aki/roleBox/requestToken'
+    header_data['token'] = token
+    form_data = {
+        'roleId'    : role_id,
+        'serverId'  : server_id
+    }
+    return await do_fetch(REQUEST_URL, header_data, form_data)
+
 async def do_fetch(url, header, data):
     async with httpx.AsyncClient() as client:
         try:
             response = await client.post(url, headers=header, data=data)
-            if not (response.status_code == 200 or (
+            #沟槽的库洛，10902是柠檬什么code🫵😡
+            if not (response.status_code == 200 or response.status_code == 10902 or (
                     response.status_code == 0 and response.json().get('message') == 'success')):
                 raise Exception('fetch error: ', response.status_code, response.reason_phrase)
             else:
@@ -174,8 +169,7 @@ async def do_fetch(url, header, data):
                     # 仅在解密成功时更新 rsp['data']
                     if isinstance(decrypted_data, dict):  # 检查解密结果是否为字典
                         rsp['data'] = decrypted_data
-
-                if rsp.get('code') == 200 or rsp.get('message') == "success":
+                if rsp.get('code') == 200 or rsp.get('code') == 10902 or rsp.get('message') == "success":
                     return rsp
                 else:
                     raise Exception('api error:', rsp)
