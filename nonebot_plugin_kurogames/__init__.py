@@ -1,16 +1,20 @@
-from nonebot import on_command
+from nonebot import on_command, require, get_driver
+from nonebot.log import logger
 from nonebot.params import CommandArg
 from nonebot.plugin import PluginMetadata
-from nonebot.adapters.onebot.v11 import MessageSegment, Message, Bot, MessageEvent
+from nonebot.adapters.onebot.v11 import MessageSegment, Message, Bot, MessageEvent, GroupMessageEvent, Event
+
+require("nonebot_plugin_apscheduler")
 
 import json
 from .config import Config
 from .Static.kuro_help import *
+from nonebot_plugin_apscheduler import scheduler
 from .handler.pns_handlers.pns_data_handler import pns_data_handler
 from .handler.pns_handlers.pns_login_handler import pns_login_handler, get_kuro_token
 from .handler.pns_handlers.pns_detail_handler import kuro_sdk_login
 from .handler.mc_handlers.mc_data_handler import *
-from .handler.bbs_handlers.bbs_data_handler import daily_task
+from .handler.bbs_handlers.bbs_data_handler import *
 from .handler.mc_handlers.mc_gacha_login_handler import *
 from .handler.mc_handlers.mc_gacha_handler import gacha_analysis
 
@@ -30,12 +34,15 @@ kuro_login     = on_command("pnslogin",     aliases={"战双登陆","战双登�
 pns_help       = on_command("pnshelp",      aliases={"战双帮助", "库洛帮助", "鸣潮帮助"}, priority=5)
 mingchao       = on_command("mcsj",         aliases={"鸣潮详情", "mcxq", "我的鸣潮卡片", "鸣潮数据"}, priority=5)
 kuro_daily     = on_command("库洛签到",      aliases={"战双签到", "鸣潮签到", "库街区每日", "库洛每日", "库街区签到"}, priority=5)
+kuro_auto      = on_command("库洛自动签到",  aliases={"战双自动签到", "库街区自动签到", "鸣潮自动签到"})
 mc_gacha       = on_command("鸣潮抽卡分析",  aliases={"鸣潮抽卡记录", "鸣潮抽卡历史", "鸣潮抽卡详情", "鸣潮抽卡数据"}, priority=5)
 mc_gacha_login = on_command("鸣潮数据码录入", aliases={"鸣潮抽卡录入", "鸣潮抽卡登陆", "鸣潮抽卡登录"}, priority=5)
 mc_explore     = on_command("鸣潮探索数据",   aliases={"鸣潮探索详情", "鸣潮地图数据", "鸣潮地图详情", "鸣潮探索进度"}, priority=5)
 mc_role_detail = on_command("鸣潮角色面板",   aliases={"鸣潮角色详情", "鸣潮角色数据"}, priority=5)
 mc_tower_detail= on_command("鸣潮深渊详情",  aliases={"鸣潮深渊数据", "逆境深塔详情", "逆境深塔数据", "鸣潮逆境深塔详情", "鸣潮逆境深塔数据"}, priority=5)
 mc_slash_detail= on_command("鸣潮海墟详情",  aliases={"鸣潮海墟数据", "鸣潮海渊数据", "冥歌海墟详情", "冥歌海墟数据", "海墟详情", "海墟数据", "鸣潮冥歌海墟数据", "新深渊数据", "鸣潮新深渊数据"}, priority=5)
+
+driver = get_driver()
 
 @kuro_login.handle()
 async def _(bot:Bot, event: MessageEvent, arg: Message = CommandArg()):
@@ -194,4 +201,93 @@ async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
            await mc_slash_detail.finish(MessageSegment.image(result))
     else:
         await mc_slash_detail.finish("请先输入token")
-    
+
+@kuro_auto.handle()
+async def _(bot: Bot, event: Event, args: Message = CommandArg()):
+    user_id = event.get_user_id()
+    if args:
+        type = args.extract_plain_text()
+        if type not in ["开启", "关闭"]:
+            await kuro_auto.finish("请输入正确的指令，例如：鸣潮自动签到 开启")
+        data_row = await get_kuro_token(user_id)
+        if isinstance(event, GroupMessageEvent):
+            group_id = event.group_id
+        else:
+            group_id = 'notgroup'
+        if data_row:
+            if type == "开启":
+                await daily_auto_open(bot, user_id, data_row, group_id)
+            elif type == "关闭":
+                await daily_auto_close(bot, user_id, group_id)
+        else:
+            await kuro_auto.finish("请先输入token")
+
+async def daily_auto_open(bot:Bot, qq_id, data_row, group_id):
+    try:
+        result = manager._insert_auto_task(qq_id, str(qq_id) + '_' + str(group_id))
+    except:
+        result = '已经开启自动签到，请勿重复开启！'
+    try:
+        scheduler.add_job(dialy_auto_task, 'cron', hour=0, minute=0, second=15, args=[bot, qq_id, data_row, group_id], id=(str(qq_id) + '_' + str(group_id)))
+    except:
+        result = '已经开启自动签到，请勿重复开启！'
+    if result == 'success':
+        result = "自动签到开启成功！"
+    if group_id != "notgroup":
+        at_message = Message([
+            MessageSegment.at(qq_id),
+            MessageSegment.text(' '+result)
+        ])
+        await bot.send_group_msg(group_id=group_id, message=at_message)
+    else:
+        await bot.send_msg(user_id=qq_id, message=result)
+
+async def daily_auto_close(bot:Bot, qq_id, group_id):
+    a = b = ''
+    try:
+        result = manager._delete_auto_task(qq_id)
+        a = 1 if result == 'false' else ''
+    except Exception as e:
+        a = 1
+    try:
+        scheduler.remove_job((str(qq_id) + '_' + str(group_id)))
+    except Exception as e:
+        b = 1
+    if a == 1 and b == 1:
+        result = '布什哥们，你也妹开启自动签到啊！🫵😡'
+    if result == 'success':
+        result = "自动签到关闭成功！"
+    if group_id != "notgroup":
+        at_message = Message([
+            MessageSegment.at(qq_id),
+            MessageSegment.text(' '+result)
+        ])
+        await bot.send_group_msg(group_id=group_id, message=at_message)
+    else:
+        await bot.send_msg(user_id=qq_id, message=result)
+
+async def dialy_auto_task(bot:Bot, qq_id, data_row, group_id):
+    result = await daily_task(qq_id, data_row)
+    if group_id != "notgroup":
+        at_message = Message([
+            MessageSegment.at(qq_id),
+            MessageSegment.text(' '+result)
+        ])
+        await bot.send_group_msg(group_id=group_id, message=at_message)
+    else:
+        await bot.send_msg(user_id=qq_id, message=result)
+
+@driver.on_bot_connect
+async def restore_tasks(bot: Bot):
+    subscriptions = manager._get_all_auto_task()
+    for subscription in subscriptions:
+        qq_id = subscription[0]
+        job_id = subscription[1]
+        group_id = subscription[1].split('_')[1]
+        data_row = await get_kuro_token(qq_id)
+        try:
+            scheduler.add_job(dialy_auto_task, 'cron', hour=0, minute=0, second=15, args=[bot, qq_id, data_row, group_id], id=str(qq_id) + '_' + str(group_id))
+            logger.info('库洛插件自动添加任务'+str(qq_id) + '_' + str(group_id)+'成功')
+        except Exception as e:
+            logger.error(str(e))
+

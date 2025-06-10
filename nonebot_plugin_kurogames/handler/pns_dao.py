@@ -45,7 +45,14 @@ class UserInfoManagement:
                             server_id     INTEGER NULL,
                             mc_server_id  TEXT NULL,
                             gacha_id      TEXT NULL
-                        );''')
+                        );
+                        ''')
+            cur.execute('''CREATE TABLE IF NOT EXISTS KURO_AUTO_TASK
+                        (
+                            qq_id         INTEGER PRIMARY KEY,
+                            job_id        TEXT NOT NULL
+                        );
+                        ''')
             cur.execute("PRAGMA table_info(PNS_USER_INFO)")
             columns = [row[1] for row in cur.fetchall()]
             if 'mc_server_id' not in columns:
@@ -125,7 +132,43 @@ class UserInfoManagement:
             return "success"
         except Exception as e:
             raise e
+    
+    def _insert_auto_task(self, qq_id, job_id):
+        try:
+            c = self.conn.cursor()
+            params = (qq_id, job_id)
+            sql = '''INSERT INTO KURO_AUTO_TASK (qq_id, job_id) VALUES (?, ?)'''
+            c.execute(sql, params)
+            self.conn.commit()
+            return "success"
+        except Exception as e:
+            raise e
+    
+    def _delete_auto_task(self, qq_id):
+        try:
+            c = self.conn.cursor()
+            params = (str(qq_id),)
+            sql = '''SELECT * FROM KURO_AUTO_TASK WHERE qq_id = ?'''
+            c.execute(sql, params)
+            rows = c.fetchall()
+            if len(rows) == 0:
+                return "false"
+            sql = '''DELETE FROM KURO_AUTO_TASK WHERE qq_id = ?'''
+            c.execute(sql, params)
+            self.conn.commit()
+            return "success"
+        except Exception as e:
+            raise e
         
+    def _get_all_auto_task(self):
+        try:
+            c = self.conn.cursor()
+            sql = '''SELECT * FROM KURO_AUTO_TASK'''
+            c.execute(sql)
+            rows = c.fetchall()
+            return rows
+        except Exception as e:
+            raise e
 
 
             
