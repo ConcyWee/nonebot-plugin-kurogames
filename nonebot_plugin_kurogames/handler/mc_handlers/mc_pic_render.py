@@ -89,7 +89,7 @@ async def mc_role_detail_render(data, user_data):
         'userName'          : user_data['name'],
         'userId'            : user_data['id'],
         'roleName'          : data['role']['roleName'],
-        'rolePic'           : data['role']['rolePicUrl'],
+        'rolePic'           : data['roleSkin']['picUrl'],
         'starLevel'         : data['role']['starLevel'],
         'roleBreach'        : data['role']['breach'],
         'attributeName'     : data['role']['attributeName'],

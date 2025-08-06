@@ -11,6 +11,7 @@ async def daily_task(qq_id, data_row):
     mc_server_id      = data_row[6]
     token_data        = json.loads(user_token)['data']['token']
     daily_result      = '用户' + str(qq_id) + '\n'
+    daily_result     += '库街区ID：' + str(bbs_id) + '\n'
     try:
         await bbs_sign_in(token_data)
         daily_result += '库街区签到成功！\n'

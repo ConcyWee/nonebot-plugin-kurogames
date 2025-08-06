@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-kurogames"
-version = "0.2.26"
+version = "0.2.27"
 description = "库洛游戏数据详情 谢比螺六~"
 authors = ["ConcyWee <concywee@163.com>"]
 license = "MIT"
@@ -16,6 +16,7 @@ httpx = ">=0.27.0"
 jinja2 = ">=3.0.0"
 playwright = ">=1.30.0"
 pycryptodome = ">=3.21.0"
+nonebot-plugin-apscheduler = ">=0.5.0"
 
 [build-system]
 requires = ["poetry-core"]

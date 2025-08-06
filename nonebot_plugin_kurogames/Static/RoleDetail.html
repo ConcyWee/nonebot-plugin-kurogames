@@ -70,6 +70,7 @@
     padding-right: 5px;
     font-size: 34px;
     height: 25px;
+    z-index: 999;
   }
 
   #role-breach {
@@ -86,6 +87,7 @@
     left: 30px;
     height: 25px;
     margin: 0px 0px 0px 0px;
+    z-index: 999;
   }
 
   #weapon-breach-detail {
@@ -108,7 +110,8 @@
     right: -20px;
     top: 30px;
     height: 500px;
-    mask-image: linear-gradient(to top, transparent 0%, #000 90px);
+    mask-image: linear-gradient(to top, transparent 0%, #000 90px), linear-gradient(to left, transparent 0%, #000 150px);
+    mask-composite: intersect;
   }
 
   #skill {

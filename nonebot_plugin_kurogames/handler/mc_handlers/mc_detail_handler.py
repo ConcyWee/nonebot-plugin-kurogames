@@ -4,8 +4,26 @@ import base64
 from Crypto.Cipher import AES
 
 header_data = {
-        'source' : 'ios',
-        'token' : '',
+        'source': 'android',
+        'osVersion': '35',
+        'countryCode': 'CN',
+        'pragma': 'no-cache',
+        'cache-control': 'no-cache',
+        'accept': 'application/json, text/plain, */*',
+        'model': '2201122C',
+        'source': 'android',
+        'lang': 'zh-Hans',
+        'version': '2.5.1',
+        'versionCode': '2510',
+        'token': '',
+        'content-type': 'application/x-www-form-urlencoded; charset=utf-8',
+        'x-requested-with': 'com.kurogame.kjq',
+        'sec-fetch-site': 'same-site',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-dest': 'empty',
+        'accept-encoding': 'gzip, deflate, br, zstd',
+        'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
+        'user-agent': 'okhttp/3.11.0',
     }
 
 async def refresh_role_data(roleId, serverId, token):

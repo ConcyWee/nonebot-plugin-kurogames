@@ -228,7 +228,7 @@ async def daily_auto_open(bot:Bot, qq_id, data_row, group_id):
     except:
         result = '已经开启自动签到，请勿重复开启！'
     try:
-        scheduler.add_job(dialy_auto_task, 'cron', hour=0, minute=0, second=15, args=[bot, qq_id, data_row, group_id], id=(str(qq_id) + '_' + str(group_id)))
+        scheduler.add_job(dialy_auto_task, 'cron', hour=0, minute=0, second=15, args=[bot, qq_id, group_id], id=(str(qq_id) + '_' + str(group_id)))
     except:
         result = '已经开启自动签到，请勿重复开启！'
     if result == 'success':
@@ -266,7 +266,8 @@ async def daily_auto_close(bot:Bot, qq_id, group_id):
     else:
         await bot.send_msg(user_id=qq_id, message=result)
 
-async def dialy_auto_task(bot:Bot, qq_id, data_row, group_id):
+async def dialy_auto_task(bot:Bot, qq_id, group_id):
+    data_row = await get_kuro_token(qq_id)
     result = await daily_task(qq_id, data_row)
     if group_id != "notgroup":
         at_message = Message([
@@ -286,7 +287,7 @@ async def restore_tasks(bot: Bot):
         group_id = subscription[1].split('_')[1]
         data_row = await get_kuro_token(qq_id)
         try:
-            scheduler.add_job(dialy_auto_task, 'cron', hour=0, minute=0, second=15, args=[bot, qq_id, data_row, group_id], id=str(qq_id) + '_' + str(group_id))
+            scheduler.add_job(dialy_auto_task, 'cron', hour=0, minute=0, second=15, args=[bot, qq_id, group_id], id=str(qq_id) + '_' + str(group_id))
             logger.info('库洛插件自动添加任务'+str(qq_id) + '_' + str(group_id)+'成功')
         except Exception as e:
             logger.error(str(e))
