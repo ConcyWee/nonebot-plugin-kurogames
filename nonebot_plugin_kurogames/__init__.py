@@ -61,8 +61,12 @@ async def _(bot:Bot, event: MessageEvent, arg: Message = CommandArg()):
     await kuro_login.finish(result)
 
 @punishing.handle()
-async def _(bot: Bot, event: MessageEvent):
+async def _(bot: Bot, event: MessageEvent, args: Message = CommandArg()):
     user_id = event.get_user_id()
+    if args:
+        for arg in args:
+            if arg.type == "at":
+                user_id = arg.data.get("qq", "")
     data_row = await get_kuro_token(user_id)
     if data_row:
         pic_result = await pns_data_handler(data_row)

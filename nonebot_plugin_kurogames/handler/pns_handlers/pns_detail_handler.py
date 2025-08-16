@@ -69,7 +69,7 @@ async def get_mc_account_info(token):
     return await do_fetch(MC_INFO_URL, header_data, form_data)
 
 async def get_monthly_resource(roleId, token):
-    MONTHLY_RESOURCE_URL = 'https://api.kurobbs.com/gamer/resource/month'
+    MONTHLY_RESOURCE_URL = 'https://api.kurobbs.com/haru/resource/currentMonth'
     header_data['token'] = token
     form_data = {
         'roleId': roleId,
