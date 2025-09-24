@@ -87,6 +87,17 @@ async def get_pns_game_account(roleId, serverId, token):
     }
     return await do_fetch(GAME_ACCOUNT_URL, header_data, form_data)
 
+async def get_b_at(roleId, serverId, userId, did, token):
+    B_AT_URL = 'https://api.kurobbs.com/aki/roleBox/requestToken'
+    header_data['did'] = did
+    header_data['token'] = token
+    form_data = {
+        'roleId' : roleId,
+        'serverId': serverId,
+        'userId': userId
+    }
+    return await do_fetch(B_AT_URL, header_data, form_data)
+
 async def do_fetch(url, header, data):
     async with httpx.AsyncClient() as client:
         try:

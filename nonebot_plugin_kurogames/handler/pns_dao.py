@@ -59,6 +59,11 @@ class UserInfoManagement:
                 cur.execute('ALTER TABLE PNS_USER_INFO ADD COLUMN mc_server_id TEXT NULL;')
             if 'gacha_id' not in columns:
                 cur.execute('ALTER TABLE PNS_USER_INFO ADD COLUMN gacha_id TEXT NULL;')
+            if 'b_at' not in columns:
+                cur.execute('ALTER TABLE PNS_USER_INFO ADD COLUMN b_at TEXT NULL;')
+            if 'did' not in columns:
+                cur.execute('ALTER TABLE PNS_USER_INFO ADD COLUMN did TEXT NULL;')
+            
             self.conn.commit()
             return "success"
     def _get_data(self, qq_id):
@@ -79,10 +84,12 @@ class UserInfoManagement:
         user_token = data['token']
         server_id = data.get('serverId', '')
         mc_server_id = data.get('mcServerId', '')
+        b_at = data.get('b_at', '')
+        did = data.get('did', '')
         try:
             c = self.conn.cursor()
-            sql = '''INSERT INTO PNS_USER_INFO (bbs_id, qq_id, pns_id, mc_id, user_token, server_id, mc_server_id) VALUES (?, ?, ?, ?, ?, ?, ?)'''
-            c.execute(sql, (bbs_id, qq_id, pns_id, mc_id, user_token, server_id, mc_server_id))
+            sql = '''INSERT INTO PNS_USER_INFO (bbs_id, qq_id, pns_id, mc_id, user_token, server_id, mc_server_id, b_at, did) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'''
+            c.execute(sql, (bbs_id, qq_id, pns_id, mc_id, user_token, server_id, mc_server_id, b_at, did))
             self.conn.commit()
             return "success"
         except Exception as e:
@@ -96,12 +103,15 @@ class UserInfoManagement:
         user_token = data['token']
         server_id = data.get('serverId', '')
         mc_server_id = data.get('mcServerId', '')
+        b_at = data.get('b_at', '')
+        did = data.get('did', '')
+        print(b_at, '=====', did)
         try:
             c = self.conn.cursor()
-            params = (bbs_id, pns_id, mc_id, str(user_token), server_id, mc_server_id, qq_id)
+            params = (bbs_id, pns_id, mc_id, str(user_token), server_id, mc_server_id, b_at, did, qq_id)
             sql = """UPDATE PNS_USER_INFO 
                     SET bbs_id = ?, pns_id = ?, mc_id = ?, 
-                        user_token = ?, server_id = ? , mc_server_id = ?
+                        user_token = ?, server_id = ? , mc_server_id = ?, b_at = ?, did = ?
                     WHERE qq_id = ?"""
 
             c.execute(sql, params)

@@ -49,14 +49,17 @@ async def _(bot:Bot, event: MessageEvent, arg: Message = CommandArg()):
     user_id = event.get_user_id()
     data_content = arg.extract_plain_text()
     if data_content:
-        if data_content[0].isdigit() and data_content[-1].isdigit():
-            data_content = await kuro_sdk_login(data_content.split(' ')[0], data_content.split(' ')[1])
-            if isinstance(data_content, dict):
-                data_content = json.dumps(data_content)
-            else:
-                await kuro_login.finish(data_content)
-        result = await pns_login_handler(user_id, data_content)
-    else:
+        # if data_content[0].isdigit() and data_content[-1].isdigit():
+        #     data_content = await kuro_sdk_login(data_content.split(' ')[0], data_content.split(' ')[1])
+        #     if isinstance(data_content, dict):
+        #         data_content = json.dumps(data_content)
+        #     else:
+        #         await kuro_login.finish(data_content)
+
+        token = data_content.split(' ')[0].strip()
+        did   = data_content.split(' ')[-1].strip()
+        result = await pns_login_handler(user_id, token, did) #0: token, 1: did
+    else: 
         result = "请输入token"
     await kuro_login.finish(result)
 

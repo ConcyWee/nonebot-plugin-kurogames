@@ -6,10 +6,10 @@ async def daily_task(qq_id, data_row):
     bbs_id            = data_row[0]
     pns_id            = data_row[2]
     mc_id             = data_row[3]
-    user_token        = data_row[4]
+    token_data        = data_row[4]
     server_id         = data_row[5]
     mc_server_id      = data_row[6]
-    token_data        = json.loads(user_token)['data']['token']
+    # token_data        = json.loads(user_token)['data']['token']
     daily_result      = '用户' + str(qq_id) + '\n'
     daily_result     += '库街区ID：' + str(bbs_id) + '\n'
     try:

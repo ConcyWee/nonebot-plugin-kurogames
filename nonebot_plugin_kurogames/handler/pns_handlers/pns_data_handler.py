@@ -6,8 +6,7 @@ from .pns_pic_render import pic_generator
 
 async def pns_data_handler(data_row):
     pns_result = {}
-    user_token        = data_row[4]
-    token_data        = json.loads(user_token)['data']['token']
+    token_data        = data_row[4]
     try:
         pns_detail    = await get_punishing_resource(token_data)
     except:
